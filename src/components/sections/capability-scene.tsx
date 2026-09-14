@@ -2,112 +2,76 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { useMotionPreference } from "@/components/motion/motion-preferences";
-import { DESKTOP_SCENE_QUERY } from "@/lib/motion";
 
 export function CapabilityScene({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const { enabled } = useMotionPreference();
-
   useEffect(() => {
     if (!enabled || !root.current) return;
     const element = root.current;
     let disposed = false;
     let cleanup = () => {};
-
     void Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
       if (disposed) return;
       gsap.registerPlugin(ScrollTrigger);
-      const media = gsap.matchMedia();
-      media.add(DESKTOP_SCENE_QUERY, () => {
-        const panels = gsap.utils.toArray<HTMLElement>("[data-capability]", element);
-        const links = gsap.utils.toArray<HTMLAnchorElement>("[data-capability-link]", element);
-        const bird = element.querySelector("[data-scene-bird]");
-        const path = element.querySelector("[data-connection-path]");
-        let active = -1;
-        element.classList.add("is-enhanced");
-        gsap.set(panels.slice(1), { autoAlpha: 0, y: 28 });
-        gsap.set(path, { strokeDasharray: 1, strokeDashoffset: 1 });
-
-        function setActive(index: number) {
-          if (active === index) return;
-          active = index;
-          panels.forEach((panel, i) => {
-            panel.inert = i !== index;
-            panel.setAttribute("aria-hidden", String(i !== index));
-          });
-          links.forEach((link, i) => {
-            if (i === index) link.setAttribute("aria-current", "step");
-            else link.removeAttribute("aria-current");
-          });
-          element.dataset.active = String(index);
-        }
-
-        const timeline = gsap.timeline({
-          defaults: { ease: "power2.inOut" },
-          scrollTrigger: {
-            trigger: element,
-            start: "top top",
-            end: () => `+=${window.innerHeight * 3.5}`,
-            pin: true,
-            scrub: 0.65,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-          onUpdate() {
-            setActive(Math.min(3, Math.floor(this.time() + 0.17)));
-            element.style.setProperty("--scene-progress", String(this.progress()));
-          },
-        });
-        const positions = [{ x: 0, y: 0, rotation: -4 }, { x: 38, y: -60, rotation: 7 }, { x: -48, y: 25, rotation: -10 }, { x: 10, y: -18, rotation: 2 }];
-        gsap.set(bird, positions[0]);
-        panels.slice(1).forEach((panel, i) => {
-          const at = i + 0.65;
-          timeline.to(panels[i], { autoAlpha: 0, y: -28, duration: 0.35 }, at)
-            .to(panel, { autoAlpha: 1, y: 0, duration: 0.35 }, at)
-            .to(bird, { ...positions[i + 1], duration: 0.75 }, at - 0.15);
-        });
-        timeline.to(path, { strokeDashoffset: 0, ease: "none", duration: 3.8 }, 0);
-        setActive(0);
-
-        const handlers = links.map((link, i) => {
-          const handleClick = (event: MouseEvent) => {
-            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-            const trigger = timeline.scrollTrigger;
-            if (!trigger) return;
-            event.preventDefault();
-            // Native scrolling also works when Lenis is not available.
-            const progress = (i + 0.3) / timeline.duration();
-            window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * progress, behavior: "instant" });
+      const ctx = gsap.context(() => {
+        const mm = gsap.matchMedia();
+        mm.add("(min-width: 1024px) and (min-height: 700px)", () => {
+          const panels = gsap.utils.toArray<HTMLElement>("[data-capability]", element);
+          const layers = gsap.utils.toArray<SVGGElement>("[data-system]", element);
+          const links = gsap.utils.toArray<HTMLAnchorElement>("[data-capability-link]", element);
+          const bird = document.querySelector("[data-hummingbird-scene]");
+          const readout = element.querySelector("[data-system-readout]");
+          let active = -1;
+          element.classList.add("is-enhanced");
+          gsap.set(panels.slice(1), { autoAlpha: 0, y: 48, clipPath: "inset(12% 0 12%)" });
+          gsap.set(layers.slice(1), { autoAlpha: 0, scale: .72, transformOrigin: "50% 50%" });
+          gsap.set("[data-draw-path]", { strokeDasharray: 1, strokeDashoffset: 1 });
+          const setActive = (index: number) => {
+            if (active === index) return;
+            active = index;
+            panels.forEach((panel,i) => { panel.inert=i!==index; panel.setAttribute("aria-hidden",String(i!==index)); });
+            links.forEach((link,i) => i===index?link.setAttribute("aria-current","step"):link.removeAttribute("aria-current"));
+            element.dataset.active=String(index);
+            if (readout) readout.textContent=["MICROSOFT","CLOUD","AI + AUTOMATION","CUSTOM SOFTWARE"][index];
           };
-          link.addEventListener("click", handleClick);
-          return () => link.removeEventListener("click", handleClick);
-        });
-        ScrollTrigger.refresh();
-
-        return () => {
-          handlers.forEach((remove) => remove());
-          element.classList.remove("is-enhanced");
-          delete element.dataset.active;
-          element.style.removeProperty("--scene-progress");
-          panels.forEach((panel) => { panel.inert = false; panel.removeAttribute("aria-hidden"); });
-          links.forEach((link) => link.removeAttribute("aria-current"));
-        };
-      });
-      media.add("(max-width: 1023px), (max-height: 699px)", () => {
-        gsap.utils.toArray<HTMLElement>(".capability-copy", element).forEach((copy) => {
-          gsap.from(copy, {
-            y: 22,
-            opacity: 0,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: { trigger: copy, start: "top 92%", once: true },
+          const tl = gsap.timeline({
+            defaults:{ease:"power2.inOut"},
+            scrollTrigger:{trigger:element,start:"top top",end:()=>`+=${window.innerHeight*4.6}`,pin:true,scrub:.8,anticipatePin:1,invalidateOnRefresh:true},
+            onUpdate(){setActive(Math.min(3,Math.floor(this.progress()*4)));},
           });
+          tl.to(layers[0].querySelectorAll("[data-draw-path]"),{strokeDashoffset:0,duration:.8,ease:"none"},0);
+          const birdStates=[
+            {x:"66vw",y:"54vh",scale:.5,rotation:-8},
+            {x:"77vw",y:"30vh",scale:.46,rotation:-14},
+            {x:"59vw",y:"61vh",scale:.42,rotation:10},
+            {x:"80vw",y:"45vh",scale:.44,rotation:-4},
+          ];
+          tl.to(bird,{...birdStates[0],opacity:1,duration:.35},0);
+          panels.slice(1).forEach((panel,i)=>{
+            const at=i+1;
+            tl.to(panels[i],{autoAlpha:0,y:-42,clipPath:"inset(12% 0 12%)",duration:.34},at-.18)
+              .to(layers[i],{autoAlpha:0,scale:1.18,rotation:i%2?8:-8,duration:.38},at-.18)
+              .fromTo(panel,{autoAlpha:0,y:48,clipPath:"inset(12% 0 12%)"},{autoAlpha:1,y:0,clipPath:"inset(0% 0 0%)",duration:.46},at)
+              .to(layers[i+1],{autoAlpha:1,scale:1,rotation:0,duration:.6},at-.08)
+              .to(layers[i+1].querySelectorAll("[data-draw-path]"),{strokeDashoffset:0,duration:.72,stagger:.05,ease:"none"},at)
+              .to(bird,{...birdStates[i+1],duration:.72,ease:"power1.inOut"},at-.18);
+          });
+          setActive(0);
+          return () => {
+            element.classList.remove("is-enhanced"); delete element.dataset.active;
+            panels.forEach(p=>{p.inert=false;p.removeAttribute("aria-hidden");});
+            links.forEach(l=>l.removeAttribute("aria-current"));
+          };
         });
-      });
-      cleanup = () => media.revert();
+        mm.add("(max-width: 1023px), (max-height: 699px)", () => {
+          gsap.utils.toArray<HTMLElement>(".capability-panel",element).forEach(panel=>gsap.from(panel,{y:28,opacity:0,duration:.7,scrollTrigger:{trigger:panel,start:"top 88%",once:true}}));
+        });
+        cleanup=()=>mm.revert();
+      }, element);
+      const old=cleanup; cleanup=()=>{old();ctx.revert();}; ScrollTrigger.refresh();
     });
-    return () => { disposed = true; cleanup(); };
-  }, [enabled]);
-
+    return()=>{disposed=true;cleanup();};
+  },[enabled]);
   return <div ref={root} className="capability-scene">{children}</div>;
 }

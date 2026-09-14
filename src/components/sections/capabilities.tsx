@@ -1,7 +1,8 @@
 import { ArrowUpRight, MoveDownRight } from "lucide-react";
 import { capabilities } from "@/data/site";
-import { Hummingbird } from "@/components/hummingbird/hummingbird";
 import { CapabilityScene } from "./capability-scene";
+
+const nodes = [[92,330],[164,135],[286,88],[482,152],[526,347],[362,485],[173,458]];
 
 export function Capabilities() {
   return (
@@ -20,23 +21,37 @@ export function Capabilities() {
                   <h3 id={`${capability.id}-title`}>{capability.headline.split("\n").map((line) => <span key={line}>{line}</span>)}</h3>
                   <p className="capability-description">{capability.description}</p>
                   <ul className="capability-technologies">{capability.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
-                  <a href={capability.link} className="text-link">Let’s explore {capability.label === "AI" ? "the possibilities" : capability.label === "Custom Software" ? "your idea" : capability.label} <ArrowUpRight size={17} aria-hidden="true" /></a>
+                  <a href={capability.link} className="text-link">Explore {capability.label} <ArrowUpRight size={17} aria-hidden="true" /></a>
                 </div>
-                <div className="panel-mobile-art" aria-hidden="true"><span>{capability.number}</span><Hummingbird variant="scene" /></div>
+                <div className={`mobile-system mobile-system--${capability.id}`} aria-hidden="true"><span>{capability.number}</span><i /><i /><i /></div>
               </article>
             ))}
           </div>
-          <div className="scene-art" aria-hidden="true">
-            <div className="scene-orbit scene-orbit-one" /><div className="scene-orbit scene-orbit-two" />
-            <svg className="connection-lines" viewBox="0 0 600 600" fill="none">
-              <path d="M101 374L248 106L506 246L387 494Z" className="connection-base" />
-              <path d="M101 374L248 106L506 246L387 494L101 374" pathLength="1" data-connection-path className="connection-active" />
-              <path d="M101 374L506 246M248 106L387 494" className="connection-cross" />
-              {[[101, 374], [248, 106], [506, 246], [387, 494]].map(([x, y], i) => <g key={i} className={`connection-node node-${i}`}><circle cx={x} cy={y} r="7" /><circle cx={x} cy={y} r="14" className="node-ring" /></g>)}
+          <div className="systems-stage" aria-hidden="true">
+            <div className="system-glow" />
+            <svg className="systems-canvas" viewBox="0 0 600 560">
+              <g data-system="microsoft" className="system-layer system-network">
+                <path data-draw-path pathLength="1" d="M92 330L164 135L286 88L482 152L526 347L362 485L173 458L92 330M164 135L362 485M286 88L173 458M482 152L92 330M526 347L164 135" />
+                {nodes.map(([x,y],i)=><g key={i} className="system-node" transform={`translate(${x} ${y})`}><circle r="6"/><circle r="15" className="node-pulse"/></g>)}
+              </g>
+              <g data-system="cloud" className="system-layer system-cloud">
+                {[0,1,2,3].map(i=><ellipse key={i} cx="310" cy="280" rx={80+i*48} ry={50+i*29} />)}
+                <path data-draw-path pathLength="1" d="M75 305C167 183 245 401 318 251S461 192 548 295" />
+                {[[115,283],[237,324],[319,251],[414,216],[510,278]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={5+i%2*3}/>)}
+              </g>
+              <g data-system="ai" className="system-layer system-ai">
+                {[-2,-1,0,1,2].map((r)=><path key={r} data-draw-path pathLength="1" d={`M68 ${280+r*48}C194 ${120+r*36} 384 ${438-r*30} 542 ${270+r*34}`} />)}
+                {nodes.map(([x,y],i)=><circle key={i} cx={x} cy={y} r={i===2?12:6}/>)}
+              </g>
+              <g data-system="software" className="system-layer system-software">
+                <rect x="79" y="90" width="445" height="365" rx="8" className="ui-shell"/>
+                <path d="M79 148H524M151 148V455" />
+                <rect x="178" y="180" width="138" height="102" rx="4"/><rect x="337" y="180" width="159" height="44" rx="4"/>
+                <rect x="337" y="242" width="159" height="112" rx="4"/><rect x="178" y="307" width="138" height="113" rx="4"/>
+                <circle cx="106" cy="119" r="5"/><circle cx="123" cy="119" r="5"/>
+              </g>
             </svg>
-            <div data-scene-bird className="scene-bird"><Hummingbird variant="scene" /></div>
-            <span className="orbit-label orbit-label-one">01 / MICROSOFT</span><span className="orbit-label orbit-label-two">02 / CLOUD</span><span className="orbit-label orbit-label-three">03 / AI</span><span className="orbit-label orbit-label-four">04 / SOFTWARE</span>
-            <span className="scene-caption"><span className="crosshair">+</span> Different capabilities. Connected thinking.</span>
+            <div className="systems-index"><span>ELX / CONNECTED SYSTEMS</span><span data-system-readout>MICROSOFT</span></div>
           </div>
           <nav className="capability-navigation" aria-label="Explore capabilities">
             {capabilities.map((capability) => <a key={capability.id} href={`#capability-${capability.id}`} data-capability-link><span>{capability.number}</span>{capability.label}<ArrowUpRight size={16} aria-hidden="true" /></a>)}
