@@ -34,6 +34,13 @@ No environment variables or external services are required. Manrope is self-host
 
 The hero uses hand-wrapped text masks for predictable line reveals. The capability canvas transforms between Microsoft nodes, cloud depth rings, an AI neural network and assembled software interface blocks. Case studies expand from framed system visuals into full-viewport chapters.
 
+## UX refinement
+
+Major scroll scenes use labeled GSAP timelines with explicit transition and reading phases. The hero reserves its opening scroll range for reading before the camera transition begins. The capability sequence uses short deterministic transforms followed by longer stable states, with a persistent four-step progress rail. Selected Work uses one reversible timeline per project so imagery arrives, content settles and the project remains readable before the next chapter.
+
+ScrollTrigger refresh priorities ensure pinned geometry is measured in document order. Desktop receives the full pinned experience, tablet uses reversible entrance triggers, and mobile keeps natural document flow with short local reveals. Secondary typography is intentionally larger across navigation, body copy, labels, progress markers and calls to action.
+
+
 ## Content
 
 Service positioning and project information come from the current ExpertLinx website. The homepage highlights:
