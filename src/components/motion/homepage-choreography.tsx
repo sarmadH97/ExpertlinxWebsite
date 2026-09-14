@@ -56,8 +56,8 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
         });
         mm.add("(max-width: 1023px), (max-height: 699px)", () => {
           gsap.set(bird.current, { xPercent: -50, yPercent: -50, x: "72vw", y: "30vh", scale: .55, opacity: 1 });
-          gsap.from("[data-hero-line]", { yPercent: 100, opacity: 0, stagger: .1, duration: .9, ease: "power3.out" });
-          gsap.from("[data-hero-detail]", { y: 16, opacity: 0, stagger: .05, duration: .65, delay: .35 });
+          gsap.fromTo("[data-hero-line]", { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, stagger: .1, duration: .9, ease: "power3.out" });
+          gsap.fromTo("[data-hero-detail]", { y: 16, opacity: 0 }, { y: 0, opacity: 1, stagger: .05, duration: .65, delay: .35 });
         });
         teardown = () => mm.revert();
       }, root);
