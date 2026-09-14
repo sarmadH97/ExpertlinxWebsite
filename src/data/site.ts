@@ -15,6 +15,39 @@ export const navigation = [
   { label: "Insights", href: "https://expertlinx.com/blog" },
 ];
 
+export const caseStudies = [
+  {
+    client: "Inner City Health Associates",
+    monogram: "ICHA",
+    sector: "Healthcare",
+    location: "Toronto, Canada",
+    platform: "Dynamics 365 Business Central",
+    result: "Finance and inventory processes streamlined.",
+    metrics: [{ value: "16", label: "Weeks" }, { value: "05", label: "Consultants" }],
+    href: "https://expertlinx.com/case-studies",
+  },
+  {
+    client: "Diamond Architectural Openings",
+    monogram: "DAO",
+    sector: "Architecture & Design",
+    location: "Canada",
+    platform: "Business Central",
+    result: "Project management and finance streamlined.",
+    metrics: [{ value: "22", label: "Weeks" }, { value: "06", label: "Consultants" }],
+    href: "https://expertlinx.com/case-studies",
+  },
+  {
+    client: "Nomad Nexus",
+    monogram: "NN",
+    sector: "Customer Services",
+    location: "Poland",
+    platform: "Dynamics 365 CRM",
+    result: "A connected CRM foundation built to improve customer engagement.",
+    metrics: [{ value: "75%", label: "Customer engagement improvement" }],
+    href: "https://expertlinx.com/case-studies",
+  },
+] as const;
+
 export const capabilities = [
   {
     id: "microsoft",
