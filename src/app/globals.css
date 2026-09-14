@@ -402,3 +402,6 @@ svg { flex-shrink: 0; }
 }
 
 .desktop-nav{position:relative}.desktop-nav a::after{display:none}.nav-indicator{position:absolute;left:0;bottom:8px;height:1px;width:0;background:var(--accent);opacity:0;pointer-events:none}.site-header.is-scrolled .header-inner{height:76px}.site-header .header-inner{transition:height .45s cubic-bezier(.2,.8,.2,1)}.button-primary{position:relative;overflow:hidden}.button-primary:before{content:"";position:absolute;inset:0;background:#fff;transform:translateY(102%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}.button-primary:hover:before{transform:none}.button-primary>*{position:relative;z-index:1}.button-primary svg{position:relative;z-index:1}
+
+/* GSAP owns the line translation; CSS owns only the pre-hydration mask. */
+[data-motion="on"] .hero-title [data-hero-line]{transform:none}
