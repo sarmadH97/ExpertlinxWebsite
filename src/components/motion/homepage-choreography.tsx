@@ -19,6 +19,8 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
       const ctx = gsap.context(() => {
         const mm = gsap.matchMedia();
         mm.add("(min-width: 1024px) and (min-height: 700px)", () => {
+          gsap.set("[data-hero-line]", { yPercent: 105 });
+          gsap.set("[data-hero-line=\"three\"]", { scaleX: .78, transformOrigin: "left center" });
           gsap.set(bird.current, { xPercent: -50, yPercent: -50, x: "118vw", y: "39vh", scale: .56, rotation: 17, opacity: 0, filter: "blur(12px)" });
           gsap.timeline({ defaults: { ease: "expo.out" } })
             .to("[data-hero-line='one']", { clipPath: "inset(0% 0 0)", yPercent: 0, opacity: 1, duration: 1.05 }, .08)
