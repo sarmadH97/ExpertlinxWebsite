@@ -37,7 +37,7 @@ export function CapabilityScene({ children }: { children: ReactNode }) {
           };
           const tl = gsap.timeline({
             defaults:{ease:"power2.inOut"},
-            scrollTrigger:{trigger:element,start:"top top",end:()=>`+=${window.innerHeight*4.6}`,pin:true,scrub:.8,anticipatePin:1,invalidateOnRefresh:true},
+            scrollTrigger:{trigger:element,start:"top top",end:()=>`+=${window.innerHeight*4.6}`,pin:true,scrub:.8,anticipatePin:1,invalidateOnRefresh:true,refreshPriority:1},
             onUpdate(){setActive(Math.min(3,Math.floor(this.progress()*4)));},
           });
           tl.to(layers[0].querySelectorAll("[data-draw-path]"),{strokeDashoffset:0,duration:.8,ease:"none"},0);
