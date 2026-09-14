@@ -1,6 +1,6 @@
 # ExpertLinx — cinematic homepage
 
-A motion-led homepage for ExpertLinx built around a single continuous hummingbird journey. The experience connects a pinned hero, four transforming capability states, real case-study chapters and a final conversation prompt.
+A motion-led homepage for ExpertLinx connecting a pinned hero, four transforming capability states, real case-study chapters and a final conversation prompt.
 
 ## Run locally
 
@@ -24,8 +24,8 @@ No environment variables or external services are required. Manrope is self-host
 
 ## Motion architecture
 
-- `HomepageChoreography` owns the persistent transparent hummingbird and the hero/case-study/CTA camera movement.
-- `CapabilityScene` owns the pinned four-state capability timeline and temporarily controls the same shared bird.
+- `HomepageChoreography` owns the hero, case-study and CTA camera movement.
+- `CapabilityScene` owns the pinned four-state capability timeline and connected system transformations.
 - GSAP and ScrollTrigger are dynamically imported, scoped with `gsap.context()`, split by `gsap.matchMedia()`, and reverted on cleanup.
 - Scroll positions update transforms directly; React state is not used as a scroll loop.
 - Desktop uses pinned, scrubbed scenes. Tablet and mobile use shorter entrance and in-flow reveals.
@@ -33,12 +33,6 @@ No environment variables or external services are required. Manrope is self-host
 - Lenis supplies desktop wheel smoothing and stays synchronized with ScrollTrigger.
 
 The hero uses hand-wrapped text masks for predictable line reveals. The capability canvas transforms between Microsoft nodes, cloud depth rings, an AI neural network and assembled software interface blocks. Case studies expand from framed system visuals into full-viewport chapters.
-
-## Hummingbird asset
-
-The production bird is isolated at `public/images/hummingbird-premium.png` and rendered once through `HummingbirdScene`. GSAP owns the outer navigator's position, scale, rotation, opacity and blur; the image component owns only responsive rendering. The small SVG in the wordmark remains a logo mark and does not participate in the flight choreography.
-
-The generated source has a true alpha channel and fixed 3:2 dimensions, so it does not cause layout shift. The component boundary can later accept an animated WebP or Rive renderer without changing the choreography API.
 
 ## Content
 
@@ -52,6 +46,6 @@ Project imagery is expressed as branded technical systems rather than implied pr
 
 ## Responsive and accessibility behavior
 
-The full pinned choreography runs at widths of at least 1024px and heights of at least 700px. Smaller screens keep content in document flow and reduce the bird movement. The native mobile dialog, skip link, keyboard focus styles, semantic headings, inert inactive panels and motion preference control remain available.
+The full pinned choreography runs at widths of at least 1024px and heights of at least 700px. Smaller screens keep content in document flow and use shorter reveal sequences. The native mobile dialog, skip link, keyboard focus styles, semantic headings, inert inactive panels and motion preference control remain available.
 
 The key review sizes are 1440, 1024, 768 and 390 pixels wide. See `docs/verification.md` for the verification record.
