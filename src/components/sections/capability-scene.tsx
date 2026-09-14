@@ -54,8 +54,9 @@ export function CapabilityScene({ children }: { children: ReactNode }) {
               .to(layers[i],{autoAlpha:0,scale:1.18,rotation:i%2?8:-8,duration:.38},at-.18)
               .fromTo(panel,{autoAlpha:0,y:48,clipPath:"inset(12% 0 12%)"},{autoAlpha:1,y:0,clipPath:"inset(0% 0 0%)",duration:.46},at)
               .to(layers[i+1],{autoAlpha:1,scale:1,rotation:0,duration:.6},at-.08)
-              .to(layers[i+1].querySelectorAll("[data-draw-path]"),{strokeDashoffset:0,duration:.72,stagger:.05,ease:"none"},at)
               .to(bird,{...birdStates[i+1],duration:.72,ease:"power1.inOut"},at-.18);
+            const paths = layers[i+1].querySelectorAll("[data-draw-path]");
+            if (paths.length) tl.to(paths,{strokeDashoffset:0,duration:.72,stagger:.05,ease:"none"},at);
           });
           setActive(0);
           return () => {
