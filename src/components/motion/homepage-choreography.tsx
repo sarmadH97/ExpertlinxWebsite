@@ -30,7 +30,7 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
             .to("[data-hero-detail]", { y: 0, opacity: 1, stagger: .06, duration: .75, ease: "power3.out" }, .55);
           gsap.to(bird.current, { y: "-=11", rotation: "-=1.5", duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
 
-          gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "+=180%", pin: true, scrub: 1.1, anticipatePin: 1, invalidateOnRefresh: true } })
+          gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "+=180%", pin: true, scrub: 1.1, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 2 } })
             .to(".hero-grid", { opacity: .2, scale: 1.1, duration: 1 }, 0)
             .to("[data-hero-line='one']", { xPercent: -22, scale: 1.16, opacity: .15, duration: 1 }, 0)
             .to("[data-hero-line='two']", { xPercent: 24, scale: 1.13, opacity: .1, duration: 1 }, .06)
