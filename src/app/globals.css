@@ -405,3 +405,5 @@ svg { flex-shrink: 0; }
 
 /* GSAP owns the line translation; CSS owns only the pre-hydration mask. */
 [data-motion="on"] .hero-title [data-hero-line]{transform:none}
+
+@media (max-width:600px){.hero-title .accent-line{font-size:.66em}}
