@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { navigation, site } from "@/data/site";
-import { Hummingbird } from "@/components/hummingbird/hummingbird";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -55,7 +54,7 @@ export function Navbar() {
     <header ref={header} className="site-header">
       <div className="header-inner page-gutter">
         <a className="wordmark" href="#top" aria-label="ExpertLinx home">
-          <Hummingbird variant="mark" /><span>expert<span className="wordmark-light">linx</span><span className="wordmark-dot">.</span></span>
+          <span>expert<span className="wordmark-light">linx</span><span className="wordmark-dot">.</span></span>
         </a>
         <nav ref={nav} className="desktop-nav" aria-label="Main navigation">
           {navigation.map((link) => <a key={link.label} href={link.href}>{link.label}</a>)}
