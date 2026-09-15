@@ -17,7 +17,7 @@ export function SmoothScroll() {
         gsap.registerPlugin(ScrollTrigger);
         const media = gsap.matchMedia();
         media.add(DESKTOP_SCENE_QUERY, () => {
-          const lenis = new Lenis({ duration: 1.05, smoothWheel: true, syncTouch: false, anchors: false });
+          const lenis = new Lenis({ duration: .78, smoothWheel: true, syncTouch: false, anchors: false });
           const update = (time: number) => lenis.raf(time * 1000);
           lenis.on("scroll", ScrollTrigger.update);
           gsap.ticker.add(update);
