@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://expertlinx.com"),
   openGraph: { title: "ExpertLinx — Technology that moves business forward", description: site.description, type: "website" },
 };
-export const viewport: Viewport = { themeColor: "#080d13" };
+export const viewport: Viewport = { themeColor: "#f7f9fa" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body><MotionPreferences><a href="#main-content" className="skip-link">Skip to content</a><SmoothScroll /><Navbar />{children}</MotionPreferences></body></html>;
