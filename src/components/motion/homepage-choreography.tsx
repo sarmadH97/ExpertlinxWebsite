@@ -45,8 +45,8 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
 
           hero
             .fromTo("[data-hero-line='one']", { xPercent: 0, opacity: 1 }, { xPercent: -8, opacity: .32, duration: .62, immediateRender: false }, 0)
-            .fromTo("[data-hero-line='two']", { xPercent: 0, opacity: 1 }, { xPercent: 9, opacity: .26, duration: .62, immediateRender: false }, .04)
-            .fromTo("[data-hero-line='three']", { xPercent: 0, scale: 1, scaleX: 1, opacity: 1 }, { xPercent: -4, scale: 1.045, opacity: .32, duration: .62, immediateRender: false }, .08)
+            .fromTo("[data-hero-line='two']", { xPercent: 0, opacity: 1 }, { xPercent: 9, opacity: .26, duration: .62, immediateRender: false }, 0)
+            .fromTo("[data-hero-line='three']", { xPercent: 0, scale: 1, scaleX: 1, opacity: 1 }, { xPercent: -4, scale: 1.045, opacity: .32, duration: .62, immediateRender: false }, 0)
             .to(".hero-grid", { opacity: .32, scale: 1.035, duration: .7 }, 0)
             .to("[data-hero-path]", { strokeDashoffset: 0, duration: .65, ease: "none" }, 0)
             .to(".hero-bottom", { y: -22, opacity: .15, duration: .42 }, .16)
