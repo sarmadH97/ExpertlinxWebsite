@@ -30,7 +30,7 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
             .to("[data-hero-detail]", { y: 0, opacity: 1, stagger: .045, duration: .6, ease: "power3.out" }, .36);
 
           const hero = gsap.timeline({
-            defaults: { ease: "power2.inOut" },
+            defaults: { ease: "power1.out" },
             scrollTrigger: {
               trigger: ".hero",
               start: "top top",
