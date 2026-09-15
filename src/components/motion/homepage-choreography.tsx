@@ -24,9 +24,9 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
           gsap.set("[data-hero-line='three']", { scaleX: .88, transformOrigin: "left center" });
 
           gsap.timeline({ defaults: { ease: "expo.out" } })
-            .to("[data-hero-line='one']", { yPercent: 0, opacity: 1, duration: .85 }, .04)
-            .to("[data-hero-line='two']", { yPercent: 0, opacity: 1, duration: .85 }, .12)
-            .to("[data-hero-line='three']", { yPercent: 0, scaleX: 1, opacity: 1, duration: .95 }, .2)
+            .to("[data-hero-line='one']", { yPercent: 0, opacity: 1, clipPath: "inset(0% 0 0)", duration: .85 }, .04)
+            .to("[data-hero-line='two']", { yPercent: 0, opacity: 1, clipPath: "inset(0% 0 0)", duration: .85 }, .12)
+            .to("[data-hero-line='three']", { yPercent: 0, scaleX: 1, opacity: 1, clipPath: "inset(0% 0 0)", duration: .95 }, .2)
             .to("[data-hero-detail]", { y: 0, opacity: 1, stagger: .045, duration: .6, ease: "power3.out" }, .36);
 
           const hero = gsap.timeline({
@@ -78,7 +78,7 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
         });
 
         mm.add("(min-width: 768px) and (max-width: 1023px)", () => {
-          gsap.fromTo("[data-hero-line]", { yPercent: 55, opacity: 0 }, { yPercent: 0, opacity: 1, stagger: .065, duration: .7, ease: "power3.out" });
+          gsap.fromTo("[data-hero-line]", { yPercent: 55, opacity: 0 }, { yPercent: 0, opacity: 1, clipPath: "inset(0% 0 0)", stagger: .065, duration: .7, ease: "power3.out" });
           gsap.fromTo("[data-hero-detail]", { y: 12, opacity: 0 }, { y: 0, opacity: 1, stagger: .035, duration: .48, delay: .22 });
           gsap.utils.toArray<HTMLElement>("[data-case-study]").forEach((panel) => {
             gsap.fromTo(panel.querySelectorAll("[data-case-reveal]"), { y: 18, opacity: 0 }, { y: 0, opacity: 1, stagger: .03, duration: .45, scrollTrigger: { trigger: panel, start: "top 82%", toggleActions: "play none none reverse" } });
@@ -86,7 +86,7 @@ export function HomepageChoreography({ children }: { children: ReactNode }) {
         });
 
         mm.add("(max-width: 767px), (max-height: 699px)", () => {
-          gsap.fromTo("[data-hero-line]", { y: 22, opacity: 0 }, { y: 0, opacity: 1, stagger: .055, duration: .58, ease: "power3.out" });
+          gsap.fromTo("[data-hero-line]", { y: 22, opacity: 0 }, { y: 0, opacity: 1, clipPath: "inset(0% 0 0)", stagger: .055, duration: .58, ease: "power3.out" });
           gsap.fromTo("[data-hero-detail]", { y: 10, opacity: 0 }, { y: 0, opacity: 1, stagger: .03, duration: .4, delay: .18 });
           gsap.utils.toArray<HTMLElement>("[data-case-study]").forEach((panel) => {
             gsap.fromTo(panel.querySelectorAll("[data-case-reveal]"), { y: 14, opacity: 0 }, { y: 0, opacity: 1, stagger: .025, duration: .38, scrollTrigger: { trigger: panel, start: "top 86%", toggleActions: "play none none reverse" } });
