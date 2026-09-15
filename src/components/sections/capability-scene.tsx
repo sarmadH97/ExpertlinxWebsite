@@ -27,8 +27,8 @@ export function CapabilityScene({ children }: { children: ReactNode }) {
           let active = -1;
 
           element.classList.add("is-enhanced");
-          gsap.set(panels.slice(1), { autoAlpha: 0, y: 34, clipPath: "inset(8% 0 8%)" });
-          gsap.set(layers.slice(1), { autoAlpha: 0, scale: .82, transformOrigin: "50% 50%" });
+          gsap.set(panels.slice(1), { autoAlpha: 0, y: 26, clipPath: "inset(6% 0 6%)" });
+          gsap.set(layers.slice(1), { autoAlpha: 0, scale: .88, transformOrigin: "50% 50%" });
           gsap.set("[data-draw-path]", { strokeDasharray: 1, strokeDashoffset: 1 });
 
           const setActive = (index: number) => {
@@ -43,46 +43,39 @@ export function CapabilityScene({ children }: { children: ReactNode }) {
             if (readout) readout.textContent = ["MICROSOFT", "CLOUD", "AI + AUTOMATION", "CUSTOM SOFTWARE"][index];
           };
 
-          const stateAt = [0, 1, 2, 3];
-          const transitionAt = [.76, 1.76, 2.76];
           const timeline = gsap.timeline({
             defaults: { ease: "power2.inOut" },
             scrollTrigger: {
               trigger: element,
               start: "top top",
-              end: () => `+=${window.innerHeight * 7.2}`,
+              end: () => "+=" + window.innerHeight * 3.65,
               pin: true,
-              scrub: .95,
+              scrub: .55,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               refreshPriority: 1,
             },
             onUpdate() {
               const time = this.time();
-              const index = time < 1.0 ? 0 : time < 2.0 ? 1 : time < 3.0 ? 2 : 3;
-              setActive(index);
+              setActive(time < .82 ? 0 : time < 1.64 ? 1 : time < 2.46 ? 2 : 3);
             },
           });
 
-          timeline
-            .addLabel("microsoft", stateAt[0])
-            .to(layers[0].querySelectorAll("[data-draw-path]"), { strokeDashoffset: 0, duration: .24, ease: "none" }, 0);
+          timeline.to(layers[0].querySelectorAll("[data-draw-path]"), { strokeDashoffset: 0, duration: .3, ease: "none" }, 0);
 
           panels.slice(1).forEach((panel, i) => {
-            const at = transitionAt[i];
+            const at = .58 + i * .82;
             const nextLayer = layers[i + 1];
             timeline
-              .addLabel(["cloud", "ai", "software"][i], stateAt[i + 1])
-              .to(panels[i], { autoAlpha: 0, y: -26, clipPath: "inset(8% 0 8%)", duration: .2 }, at)
-              .to(layers[i], { autoAlpha: 0, scale: 1.08, rotation: i % 2 ? 3 : -3, duration: .22 }, at)
-              .fromTo(panel, { autoAlpha: 0, y: 34, clipPath: "inset(8% 0 8%)" }, { autoAlpha: 1, y: 0, clipPath: "inset(0% 0 0%)", duration: .24 }, at + .05)
-              .to(nextLayer, { autoAlpha: 1, scale: 1, rotation: 0, duration: .28 }, at + .03);
+              .to(panels[i], { autoAlpha: 0, y: -20, clipPath: "inset(6% 0 6%)", duration: .22 }, at)
+              .to(layers[i], { autoAlpha: 0, scale: 1.06, rotation: i % 2 ? 2 : -2, duration: .27 }, at)
+              .fromTo(panel, { autoAlpha: 0, y: 26, clipPath: "inset(6% 0 6%)" }, { autoAlpha: 1, y: 0, clipPath: "inset(0% 0 0%)", duration: .3 }, at + .05)
+              .to(nextLayer, { autoAlpha: 1, scale: 1, rotation: 0, duration: .34 }, at + .03);
             const paths = nextLayer.querySelectorAll("[data-draw-path]");
-            if (paths.length) timeline.to(paths, { strokeDashoffset: 0, duration: .24, stagger: .025, ease: "none" }, at + .05);
+            if (paths.length) timeline.to(paths, { strokeDashoffset: 0, duration: .3, stagger: .018, ease: "none" }, at + .06);
           });
 
-          const clock = { progress: 0 };
-          timeline.to(clock, { progress: 1, duration: .95, ease: "none" }, 3.05);
+          timeline.to({}, { duration: .38 });
           setActive(0);
 
           return () => {
@@ -95,12 +88,9 @@ export function CapabilityScene({ children }: { children: ReactNode }) {
 
         mm.add("(max-width: 1023px), (max-height: 699px)", () => {
           gsap.utils.toArray<HTMLElement>(".capability-panel", element).forEach((panel) => {
-            gsap.fromTo(panel, { y: 22, opacity: 0 }, {
-              y: 0,
-              opacity: 1,
-              duration: .58,
-              ease: "power2.out",
-              scrollTrigger: { trigger: panel, start: "top 88%", toggleActions: "play none none reverse" },
+            gsap.fromTo(panel, { y: 18, opacity: 0 }, {
+              y: 0, opacity: 1, duration: .48, ease: "power2.out",
+              scrollTrigger: { trigger: panel, start: "top 90%", toggleActions: "play none none reverse" },
             });
           });
         });
