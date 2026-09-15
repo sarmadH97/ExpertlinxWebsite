@@ -944,3 +944,7 @@ a { color: inherit; }
   html { scroll-behavior: auto; }
   .site-header, .button, .header-cta { transition-duration: .01ms; }
 }
+
+.hero-intro p { color: var(--ink-soft); }
+.capability-copy h3 span:last-child { color: var(--teal-deep); }
+.capability-technologies li { color: var(--muted); opacity: 1; }
