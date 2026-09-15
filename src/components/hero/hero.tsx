@@ -21,7 +21,7 @@ export function Hero() {
         <div className="hero-bottom">
           <div className="hero-intro" data-hero-detail>
             <span className="small-cross" aria-hidden="true">↗</span>
-            <p>We connect Microsoft solutions, cloud, AI and custom software to move your business forward.</p>
+            <p>ExpertLinx helps organizations transform through Microsoft solutions, cloud, AI and custom software.</p>
           </div>
           <div className="hero-actions" data-hero-detail>
             <a href="#capabilities" className="button button-primary">Explore Our Solutions <ArrowUpRight size={18} aria-hidden="true" /></a>
