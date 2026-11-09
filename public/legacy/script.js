@@ -2,11 +2,17 @@ const nav = document.querySelector('.nav');
 const menuButton = document.querySelector('.menu-button');
 const progressBar = document.querySelector('.scroll-progress span');
 const heroMedia = document.querySelector('.hero-media');
+const heroVideo = document.querySelector('.hero-video');
 const parallaxPanel = document.querySelector('[data-parallax]');
 const processPhoto = document.querySelector('.process-photo');
 const outcomePhoto = document.querySelector('.outcome-photo img');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ecosystemMotion = document.querySelector('.ecosystem-motion svg');
+
+if (heroVideo && reduceMotion) {
+  heroVideo.pause();
+  heroVideo.currentTime = 0;
+}
 
 if (ecosystemMotion) {
   if (reduceMotion) ecosystemMotion.pauseAnimations?.();
