@@ -3,6 +3,8 @@ const menuButton = document.querySelector('.menu-button');
 const progressBar = document.querySelector('.scroll-progress span');
 const heroMedia = document.querySelector('.hero-media');
 const parallaxPanel = document.querySelector('[data-parallax]');
+const processPhoto = document.querySelector('.process-photo');
+const outcomePhoto = document.querySelector('.outcome-photo img');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 menuButton?.addEventListener('click', () => {
@@ -25,7 +27,7 @@ const revealObserver = new IntersectionObserver((entries) => {
       revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.11, rootMargin: '0px 0px -5% 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -3% 0px' });
 
 document.querySelectorAll('[data-reveal], [data-stagger]').forEach((element) => revealObserver.observe(element));
 
@@ -33,9 +35,16 @@ let ticking = false;
 const updateScrollEffects = () => {
   const maxScroll = Math.max(document.documentElement.scrollHeight - innerHeight, 1);
   progressBar.style.transform = `scaleX(${Math.min(scrollY / maxScroll, 1)})`;
+  nav?.classList.toggle('is-scrolled', scrollY > 70);
   if (!reduceMotion) {
     if (heroMedia) heroMedia.style.transform = `scale(1.04) translate3d(0, ${Math.min(scrollY * 0.055, 58)}px, 0)`;
     if (parallaxPanel && scrollY < 1150) parallaxPanel.style.transform = `translate3d(0, ${Math.min(scrollY * 0.085, 92)}px, 0)`;
+    [processPhoto, outcomePhoto].forEach((photo) => {
+      if (!photo) return;
+      const rect = photo.getBoundingClientRect();
+      const offset = Math.max(-10, Math.min(10, ((rect.top + rect.height / 2) - innerHeight / 2) / innerHeight * -12));
+      photo.style.objectPosition = `50% ${50 + offset}%`;
+    });
   }
   ticking = false;
 };
@@ -73,13 +82,15 @@ function setProcessStep(index, manual = false) {
       item.querySelector('b').textContent = step.points[pointIndex][0];
       item.querySelector('span').textContent = step.points[pointIndex][1];
     });
-    processVisual.style.background = `linear-gradient(150deg, ${step.colors[0]}, ${step.colors[1]} 48%, ${step.colors[2]})`;
+    processVisual.style.setProperty('--step-a', step.colors[0]);
+    processVisual.style.setProperty('--step-b', step.colors[1]);
+    processVisual.style.setProperty('--step-c', step.colors[2]);
     processButtons.forEach((button, buttonIndex) => button.classList.toggle('active', buttonIndex === index));
     processStage.classList.remove('is-switching');
-  }, reduceMotion ? 0 : 180);
+  }, reduceMotion ? 0 : 380);
   if (manual && !reduceMotion) {
     clearInterval(processTimer);
-    processTimer = setInterval(() => setProcessStep((activeProcessStep + 1) % processSteps.length), 6000);
+    processTimer = setInterval(() => setProcessStep((activeProcessStep + 1) % processSteps.length), 7500);
   }
 }
 
@@ -88,7 +99,7 @@ processButtons.forEach((button) => button.addEventListener('click', () => setPro
 const processObserver = new IntersectionObserver(([entry]) => {
   if (!entry || reduceMotion) return;
   if (entry.isIntersecting) {
-    if (!processTimer) processTimer = setInterval(() => setProcessStep((activeProcessStep + 1) % processSteps.length), 6000);
+    if (!processTimer) processTimer = setInterval(() => setProcessStep((activeProcessStep + 1) % processSteps.length), 7500);
   } else {
     clearInterval(processTimer); processTimer = undefined;
   }
@@ -118,9 +129,10 @@ if (!reduceMotion && matchMedia('(pointer:fine)').matches) {
       const rect = card.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty('--mx', `${(x + 0.5) * 100}%`);
+      card.style.setProperty('--my', `${(y + 0.5) * 100}%`);
       card.style.transform = `perspective(900px) rotateX(${y * -2.2}deg) rotateY(${x * 2.2}deg) translateY(-3px)`;
     });
     card.addEventListener('pointerleave', () => { card.style.transform = ''; });
   });
 }
-
