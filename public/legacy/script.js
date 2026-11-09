@@ -124,6 +124,31 @@ document.querySelectorAll('.accordion article').forEach((item) => {
 });
 
 if (!reduceMotion && matchMedia('(pointer:fine)').matches) {
+  const tagOne = document.querySelector('.tag-one');
+  const tagTwo = document.querySelector('.tag-two');
+  let tagTarget = 0;
+  let tagCurrent = 0;
+  let tagMotionFrame;
+
+  const renderTagMotion = () => {
+    tagCurrent += (tagTarget - tagCurrent) * 0.12;
+    tagOne?.style.setProperty('--tag-x', `${tagCurrent * 44}px`);
+    tagTwo?.style.setProperty('--tag-x', `${tagCurrent * 32}px`);
+    if (Math.abs(tagTarget - tagCurrent) > 0.002) tagMotionFrame = requestAnimationFrame(renderTagMotion);
+    else tagMotionFrame = undefined;
+  };
+
+  const setTagTarget = (value) => {
+    tagTarget = value;
+    if (!tagMotionFrame) tagMotionFrame = requestAnimationFrame(renderTagMotion);
+  };
+
+  parallaxPanel?.addEventListener('pointermove', (event) => {
+    const rect = parallaxPanel.getBoundingClientRect();
+    setTagTarget(Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2)));
+  });
+  parallaxPanel?.addEventListener('pointerleave', () => setTagTarget(0));
+
   document.querySelectorAll('.bento-card, .feature-panel, .outcome-grid article, .engagement-grid article').forEach((card) => {
     card.addEventListener('pointermove', (event) => {
       const rect = card.getBoundingClientRect();
