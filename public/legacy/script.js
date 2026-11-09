@@ -6,6 +6,18 @@ const parallaxPanel = document.querySelector('[data-parallax]');
 const processPhoto = document.querySelector('.process-photo');
 const outcomePhoto = document.querySelector('.outcome-photo img');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ecosystemMotion = document.querySelector('.ecosystem-motion svg');
+
+if (ecosystemMotion) {
+  if (reduceMotion) ecosystemMotion.pauseAnimations?.();
+  else {
+    const ecosystemMotionObserver = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) ecosystemMotion.unpauseAnimations?.();
+      else ecosystemMotion.pauseAnimations?.();
+    }, { threshold: 0.08 });
+    ecosystemMotionObserver.observe(ecosystemMotion);
+  }
+}
 
 menuButton?.addEventListener('click', () => {
   const open = nav.classList.toggle('is-open');
