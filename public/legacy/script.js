@@ -9,9 +9,19 @@ const outcomePhoto = document.querySelector('.outcome-photo img');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ecosystemMotion = document.querySelector('.ecosystem-motion svg');
 
-if (heroVideo && reduceMotion) {
-  heroVideo.pause();
-  heroVideo.currentTime = 0;
+if (heroVideo) {
+  heroVideo.muted = true;
+  heroVideo.defaultMuted = true;
+  heroVideo.playbackRate = reduceMotion ? 1 : 1.35;
+
+  const keepHeroVideoPlaying = () => {
+    if (!document.hidden && heroVideo.paused) heroVideo.play().catch(() => {});
+  };
+
+  if (heroVideo.readyState >= 2) keepHeroVideoPlaying();
+  else heroVideo.addEventListener('canplay', keepHeroVideoPlaying, { once: true });
+  addEventListener('pageshow', keepHeroVideoPlaying);
+  document.addEventListener('visibilitychange', keepHeroVideoPlaying);
 }
 
 if (ecosystemMotion) {
