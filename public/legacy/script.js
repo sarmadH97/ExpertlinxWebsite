@@ -49,7 +49,7 @@ const updateScrollEffects = () => {
   progressBar.style.transform = `scaleX(${Math.min(scrollY / maxScroll, 1)})`;
   nav?.classList.toggle('is-scrolled', scrollY > 70);
   if (!reduceMotion) {
-    if (heroMedia) heroMedia.style.transform = `scale(1.04) translate3d(0, ${Math.min(scrollY * 0.055, 58)}px, 0)`;
+    if (heroMedia) heroMedia.style.transform = `scale(1.01) translate3d(0, ${Math.min(scrollY * 0.055, 58)}px, 0)`;
     if (parallaxPanel && scrollY < 1150) parallaxPanel.style.transform = `translate3d(0, ${Math.min(scrollY * 0.085, 92)}px, 0)`;
     [processPhoto, outcomePhoto].forEach((photo) => {
       if (!photo) return;
