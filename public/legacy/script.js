@@ -163,26 +163,28 @@ if (capabilityIndex) {
   capabilityObserver.observe(capabilityIndex);
 }
 
-document.querySelectorAll('[data-lens-stage]').forEach((stage) => {
-  const lens = stage.querySelector('[data-lens]');
-  if (!lens) return;
-  let rect;
-  let radius;
+document.querySelectorAll('[data-photo-stage]').forEach((stage) => {
+  const revealArea = stage.querySelector('[data-reveal-area]');
+  const photoWords = stage.querySelector('[data-photo-words]');
+  if (!revealArea || !photoWords) return;
+  let stageRect;
+  let wordsRect;
   let latestPoint;
   let motionFrame;
 
   const refreshGeometry = () => {
-    rect = stage.getBoundingClientRect();
-    radius = lens.getBoundingClientRect().width / 2;
+    stageRect = stage.getBoundingClientRect();
+    wordsRect = photoWords.getBoundingClientRect();
   };
 
-  const renderLens = () => {
-    if (!rect || !latestPoint) return;
-    const x = Math.max(radius, Math.min(rect.width - radius, latestPoint.x - rect.left));
-    const y = Math.max(radius, Math.min(rect.height - radius, latestPoint.y - rect.top));
-    lens.style.left = `${x}px`;
-    lens.style.top = `${y}px`;
-    const normalized = x / rect.width - .5;
+  const renderReveal = () => {
+    if (!stageRect || !wordsRect || !latestPoint) return;
+    const stageX = Math.max(0, Math.min(stageRect.width, latestPoint.x - stageRect.left));
+    const revealX = Math.max(0, Math.min(wordsRect.width, latestPoint.x - wordsRect.left));
+    const revealY = Math.max(0, Math.min(wordsRect.height, latestPoint.y - wordsRect.top));
+    stage.style.setProperty('--reveal-x', `${revealX}px`);
+    stage.style.setProperty('--reveal-y', `${revealY}px`);
+    const normalized = stageX / stageRect.width - .5;
     stage.style.setProperty('--shift-a', `${normalized * 22}px`);
     stage.style.setProperty('--shift-b', `${normalized * -28}px`);
     stage.style.setProperty('--shift-c', `${normalized * 18}px`);
@@ -190,28 +192,29 @@ document.querySelectorAll('[data-lens-stage]').forEach((stage) => {
     motionFrame = undefined;
   };
 
-  const queueLens = (event) => {
+  const queueReveal = (event) => {
     latestPoint = { x: event.clientX, y: event.clientY };
-    if (!motionFrame) motionFrame = requestAnimationFrame(renderLens);
+    if (!motionFrame) motionFrame = requestAnimationFrame(renderReveal);
   };
 
-  stage.addEventListener('pointerenter', (event) => {
+  revealArea.addEventListener('pointerenter', (event) => {
     refreshGeometry();
     stage.classList.add('is-interacting');
-    queueLens(event);
+    queueReveal(event);
   });
-  stage.addEventListener('pointermove', queueLens);
-  stage.addEventListener('pointerdown', (event) => {
+  revealArea.addEventListener('pointermove', queueReveal);
+  revealArea.addEventListener('pointerdown', (event) => {
     refreshGeometry();
     stage.classList.add('is-interacting');
-    queueLens(event);
+    queueReveal(event);
   });
-  stage.addEventListener('pointerleave', () => {
+  revealArea.addEventListener('pointerleave', () => {
     stage.classList.remove('is-interacting');
     if (motionFrame) cancelAnimationFrame(motionFrame);
     motionFrame = undefined;
     latestPoint = undefined;
   });
+  window.addEventListener('resize', refreshGeometry, { passive: true });
 });
 
 document.querySelectorAll('.accordion article').forEach((item) => {

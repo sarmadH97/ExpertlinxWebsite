@@ -60,7 +60,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
-      <script src="/legacy/script.js?v=20261115-kinetic-responsive-v2" defer />
+      <script src="/legacy/script.js?v=20261115-letter-reveal-v3" defer />
     </>
   );
 }
