@@ -163,6 +163,55 @@ if (capabilityIndex) {
   capabilityObserver.observe(capabilityIndex);
 }
 
+const conceptButtons = [...document.querySelectorAll('[data-concept-target]')];
+const deliveryConcepts = [...document.querySelectorAll('[data-concept]')];
+
+function setDeliveryConcept(name) {
+  conceptButtons.forEach((button) => {
+    const active = button.dataset.conceptTarget === name;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', String(active));
+  });
+  deliveryConcepts.forEach((concept) => {
+    const active = concept.dataset.concept === name;
+    concept.hidden = !active;
+    concept.classList.toggle('is-active', active);
+  });
+}
+
+conceptButtons.forEach((button, index) => {
+  button.addEventListener('click', () => setDeliveryConcept(button.dataset.conceptTarget));
+  button.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    const nextIndex = event.key === 'ArrowRight' ? (index + 1) % conceptButtons.length : (index - 1 + conceptButtons.length) % conceptButtons.length;
+    conceptButtons[nextIndex].focus();
+    setDeliveryConcept(conceptButtons[nextIndex].dataset.conceptTarget);
+  });
+});
+
+document.querySelectorAll('[data-lens-stage]').forEach((stage) => {
+  const lens = stage.querySelector('[data-lens]');
+  if (!lens) return;
+  const moveLens = (event) => {
+    const rect = stage.getBoundingClientRect();
+    const radius = lens.offsetWidth / 2;
+    const x = Math.max(radius, Math.min(rect.width - radius, event.clientX - rect.left));
+    const y = Math.max(radius, Math.min(rect.height - radius, event.clientY - rect.top));
+    lens.style.left = `${x}px`;
+    lens.style.top = `${y}px`;
+    if (stage.classList.contains('kinetic-stage')) {
+      const normalized = x / rect.width - .5;
+      stage.style.setProperty('--shift-a', `${normalized * 30}px`);
+      stage.style.setProperty('--shift-b', `${normalized * -42}px`);
+      stage.style.setProperty('--shift-c', `${normalized * 24}px`);
+      stage.style.setProperty('--shift-d', `${normalized * -34}px`);
+    }
+  };
+  stage.addEventListener('pointermove', moveLens);
+  stage.addEventListener('pointerdown', moveLens);
+});
+
 document.querySelectorAll('.accordion article').forEach((item) => {
   const button = item.querySelector('button');
   button.addEventListener('click', () => {
