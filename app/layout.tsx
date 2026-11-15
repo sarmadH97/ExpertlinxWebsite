@@ -78,10 +78,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <head>
         <link rel="preload" href="/legacy/assets/expertlinx-landscape.png" as="image" />
-        <link rel="stylesheet" href="/legacy/styles.css" />
+        <link rel="stylesheet" href="/legacy/styles.css?v=20261115-kinetic-responsive-v2" />
       </head>
       <body>{children}</body>
     </html>
   );
 }
-

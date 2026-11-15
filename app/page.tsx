@@ -11,7 +11,7 @@ const legacyDocument = readFileSync(
 
 const bodyMatch = legacyDocument.match(/<body>([\s\S]*?)<\/body>/i);
 const bodyHtml = (bodyMatch?.[1] ?? "")
-  .replace(/<script\s+src=["']script\.js["']><\/script>/i, "")
+  .replace(/<script\s+src=["']script\.js(?:\?[^"']*)?["']><\/script>/i, "")
   .trim();
 
 const structuredData = {
@@ -60,8 +60,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
-      <Script src="/legacy/script.js" strategy="afterInteractive" />
+      <script src="/legacy/script.js?v=20261115-kinetic-responsive-v2" defer />
     </>
   );
 }
-

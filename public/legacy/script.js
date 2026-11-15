@@ -166,23 +166,52 @@ if (capabilityIndex) {
 document.querySelectorAll('[data-lens-stage]').forEach((stage) => {
   const lens = stage.querySelector('[data-lens]');
   if (!lens) return;
-  const moveLens = (event) => {
-    const rect = stage.getBoundingClientRect();
-    const radius = lens.offsetWidth / 2;
-    const x = Math.max(radius, Math.min(rect.width - radius, event.clientX - rect.left));
-    const y = Math.max(radius, Math.min(rect.height - radius, event.clientY - rect.top));
+  let rect;
+  let radius;
+  let latestPoint;
+  let motionFrame;
+
+  const refreshGeometry = () => {
+    rect = stage.getBoundingClientRect();
+    radius = lens.getBoundingClientRect().width / 2;
+  };
+
+  const renderLens = () => {
+    if (!rect || !latestPoint) return;
+    const x = Math.max(radius, Math.min(rect.width - radius, latestPoint.x - rect.left));
+    const y = Math.max(radius, Math.min(rect.height - radius, latestPoint.y - rect.top));
     lens.style.left = `${x}px`;
     lens.style.top = `${y}px`;
-    if (stage.classList.contains('kinetic-stage')) {
-      const normalized = x / rect.width - .5;
-      stage.style.setProperty('--shift-a', `${normalized * 30}px`);
-      stage.style.setProperty('--shift-b', `${normalized * -42}px`);
-      stage.style.setProperty('--shift-c', `${normalized * 24}px`);
-      stage.style.setProperty('--shift-d', `${normalized * -34}px`);
-    }
+    const normalized = x / rect.width - .5;
+    stage.style.setProperty('--shift-a', `${normalized * 22}px`);
+    stage.style.setProperty('--shift-b', `${normalized * -28}px`);
+    stage.style.setProperty('--shift-c', `${normalized * 18}px`);
+    stage.style.setProperty('--shift-d', `${normalized * -24}px`);
+    motionFrame = undefined;
   };
-  stage.addEventListener('pointermove', moveLens);
-  stage.addEventListener('pointerdown', moveLens);
+
+  const queueLens = (event) => {
+    latestPoint = { x: event.clientX, y: event.clientY };
+    if (!motionFrame) motionFrame = requestAnimationFrame(renderLens);
+  };
+
+  stage.addEventListener('pointerenter', (event) => {
+    refreshGeometry();
+    stage.classList.add('is-interacting');
+    queueLens(event);
+  });
+  stage.addEventListener('pointermove', queueLens);
+  stage.addEventListener('pointerdown', (event) => {
+    refreshGeometry();
+    stage.classList.add('is-interacting');
+    queueLens(event);
+  });
+  stage.addEventListener('pointerleave', () => {
+    stage.classList.remove('is-interacting');
+    if (motionFrame) cancelAnimationFrame(motionFrame);
+    motionFrame = undefined;
+    latestPoint = undefined;
+  });
 });
 
 document.querySelectorAll('.accordion article').forEach((item) => {
