@@ -111,7 +111,7 @@ body{background:radial-gradient(circle at 7% 26%,rgba(0,163,163,.075),transparen
 /* A shorter, continuous handoff from the hero into About. */
 main{background:linear-gradient(180deg,var(--bg) 0 920px,rgba(241,245,247,0) 1120px)}
 .hero{z-index:1;overflow:visible}
-.hero:after{z-index:5;height:210px;background:linear-gradient(180deg,rgba(241,245,247,0) 0%,rgba(241,245,247,.18) 28%,rgba(241,245,247,.76) 72%,var(--bg) 100%);-webkit-mask-image:none;mask-image:none;backdrop-filter:blur(13px) saturate(.92)}
+.hero:after{z-index:5;height:230px;background:linear-gradient(180deg,rgba(241,245,247,0) 0%,rgba(241,245,247,.12) 34%,rgba(241,245,247,.68) 76%,var(--bg) 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.04) 12%,rgba(0,0,0,.24) 34%,rgba(0,0,0,.72) 68%,#000 100%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.04) 12%,rgba(0,0,0,.24) 34%,rgba(0,0,0,.72) 68%,#000 100%);backdrop-filter:blur(13px) saturate(.92)}
 .hero-product{z-index:8;background:rgba(255,255,255,.88);box-shadow:0 32px 95px rgba(22,48,59,.2)}
 main{position:relative;z-index:0}
 @media(min-width:1101px){.hero{min-height:1150px}.about{padding:115px 0 125px}}
@@ -121,3 +121,38 @@ main{position:relative;z-index:0}
 /* Full-height HD Firefly hero: use the complete 1080p clip without the old sky mask. */
 .hero-media{inset:0 0 120px}
 .hero-video{opacity:1;filter:saturate(.96) contrast(.98) brightness(1.02);-webkit-mask-image:none;mask-image:none}
+
+/* Premium connected-capability canvas: one system, four disciplines. */
+.capabilities{padding-top:104px;overflow:hidden}
+.capabilities .section-heading.centered{margin-bottom:38px}
+.capability-canvas{position:relative;min-height:700px;isolation:isolate}
+.capability-canvas:before{position:absolute;inset:2% -8% 0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 18% 23%,rgba(33,127,209,.16),transparent 25%),radial-gradient(circle at 82% 21%,rgba(25,185,209,.18),transparent 26%),radial-gradient(circle at 18% 80%,rgba(167,217,43,.17),transparent 27%),radial-gradient(circle at 82% 79%,rgba(117,87,223,.16),transparent 26%),radial-gradient(ellipse at 50% 53%,rgba(0,169,157,.16),transparent 35%);filter:blur(24px);content:""}
+.capability-canvas:after{position:absolute;inset:8% 12%;z-index:-1;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse,rgba(255,255,255,.9),rgba(255,255,255,0) 70%);content:""}
+.capability-flow{position:absolute;inset:0;z-index:0;pointer-events:none}
+.capability-flow svg{width:100%;height:100%;overflow:visible}
+.cap-route{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:9 7;opacity:.68;animation:capRoute 12s linear infinite}
+.route-ms{stroke:url(#route-ms)}.route-cloud{stroke:url(#route-cloud);animation-delay:-2.8s}.route-code{stroke:url(#route-code);animation-delay:-5.6s}.route-ai{stroke:url(#route-ai);animation-delay:-8.4s}
+.route-point{stroke:#fff;stroke-width:4;filter:drop-shadow(0 5px 12px rgba(14,52,60,.18));animation:capPoint 3.8s ease-in-out infinite}.point-ms{fill:#217fd1}.point-cloud{fill:#19b9d1;animation-delay:-1s}.point-code{fill:#a7d92b;animation-delay:-2s}.point-ai{fill:#7557df;animation-delay:-3s}
+@keyframes capRoute{to{stroke-dashoffset:-96}}@keyframes capPoint{50%{r:9;opacity:.65}}
+.capability-hub{position:absolute;left:50%;top:50%;z-index:3;display:flex;width:210px;height:138px;align-items:center;justify-content:center;flex-direction:column;gap:10px;translate:-50% -50%;border:1px solid rgba(255,255,255,.95);border-radius:52% 48% 50% 50%/55% 52% 48% 45%;background:rgba(255,255,255,.92);box-shadow:0 30px 75px rgba(20,63,71,.17),0 0 0 14px rgba(255,255,255,.38);backdrop-filter:blur(22px)}
+.capability-hub:before,.capability-hub:after{position:absolute;z-index:-1;width:86%;height:82%;border:1px solid rgba(0,169,157,.16);border-radius:inherit;background:linear-gradient(135deg,rgba(25,185,209,.16),rgba(117,87,223,.08));content:""}
+.capability-hub:before{transform:translate(-22px,18px) rotate(-4deg)}.capability-hub:after{transform:translate(23px,-17px) rotate(4deg)}
+.capability-hub img{width:125px;height:auto}.capability-hub small{color:#56706e;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.hub-pulse{position:absolute;inset:-28px;border:1px solid rgba(0,169,157,.17);border-radius:50%;animation:hubPulse 4.5s ease-out infinite}@keyframes hubPulse{70%,100%{scale:1.3;opacity:0}}
+.capability-node{position:absolute;z-index:2;width:340px;transition:transform .6s var(--ease),filter .6s var(--ease)}
+.capability-node:hover{transform:translateY(-6px);filter:drop-shadow(0 18px 24px rgba(25,61,66,.08))}
+.capability-node-head{display:flex;align-items:center;gap:17px;margin-bottom:18px}
+.capability-node-head b{font:500 48px/1 "Manrope";letter-spacing:-.06em}
+.capability-symbol{position:relative;display:grid;place-items:center;width:64px;height:64px;border:1px solid rgba(255,255,255,.9);border-radius:20px;box-shadow:0 18px 38px rgba(23,62,70,.14);font:700 19px/1 "Manrope";transition:transform .6s var(--ease)}
+.capability-node:hover .capability-symbol{transform:rotate(-4deg) scale(1.05)}
+.capability-node h3{max-width:310px;margin:0 0 10px;font:600 28px/1.06 "Manrope";letter-spacing:-.05em}
+.capability-node p{max-width:320px;margin:0;color:#4e605e;font-size:13px;line-height:1.55}
+.capability-ms{left:4%;top:7%}.capability-cloud{right:3%;top:6%}.capability-code{left:5%;bottom:5%}.capability-ai{right:3%;bottom:5%}
+.capability-ms .capability-node-head b{color:#217fd1}.capability-cloud .capability-node-head b{color:#009fb5}.capability-code .capability-node-head b{color:#78a900}.capability-ai .capability-node-head b{color:#7557df}
+.symbol-ms{grid-template-columns:repeat(2,15px);grid-template-rows:repeat(2,15px);gap:4px;background:linear-gradient(145deg,#eaf8ff,#bfeaf1)}.symbol-ms i{width:15px;height:15px;border-radius:4px;background:linear-gradient(145deg,#217fd1,#00a99d)}
+.symbol-cloud{background:linear-gradient(145deg,#e8fbff,#a9e5ef);color:#087d9b;font-size:29px}
+.symbol-code{background:linear-gradient(145deg,#f4ffd7,#bde94d);color:#244d45}
+.symbol-ai{background:linear-gradient(145deg,#f2ecff,#bca8ff);color:#5932d0;font-size:28px}
+
+@media(max-width:1000px) and (min-width:721px){.capability-canvas{min-height:780px}.capability-node{width:285px}.capability-node h3{font-size:24px}.capability-ms{left:1%}.capability-cloud{right:0}.capability-code{left:2%}.capability-ai{right:0}.capability-hub{width:180px;height:125px}.capability-flow{inset:3% 0}}
+@media(max-width:720px){.capabilities{padding-top:78px}.capability-canvas{display:grid;min-height:0;padding:10px 0 0}.capability-canvas:before{inset:0 -35%;filter:blur(38px)}.capability-flow{display:none}.capability-hub{position:relative;left:auto;top:auto;order:1;width:180px;height:120px;margin:8px auto 35px;translate:none}.capability-node{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;padding:28px 0;border-top:1px solid rgba(17,27,27,.1)}.capability-node:hover{transform:none}.capability-ms{order:2}.capability-cloud{order:3}.capability-ai{order:4}.capability-code{order:5}.capability-node-head{margin-bottom:15px}.capability-node-head b{font-size:42px}.capability-node h3{font-size:25px}.capability-node p{max-width:520px}}

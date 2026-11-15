@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#eef2f7">
   <title>ExpertLinx — Technology that works together</title>
   <link rel="preload" href="assets/expertlinx-firefly-clouds-poster.jpg?v=20261113-hd-tall" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261115-layered-transition">
+  <link rel="stylesheet" href="styles.css?v=20261115-capability-canvas">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -59,11 +59,50 @@
 
     <section class="section capabilities shell" id="capabilities">
       <div class="section-heading centered" data-reveal><p class="section-label"><span>●</span> What we connect</p><h2>Everything your business needs<br>to move as one.</h2><p>One joined-up team for the platforms, data and software behind your day-to-day work.</p></div>
-      <div class="bento-grid" data-stagger>
-        <article class="bento-card bento-wide"><div class="bento-copy"><span class="card-icon">⌘</span><h3>Microsoft business systems</h3><p>Shape Dynamics 365, Microsoft 365 and Power Platform around the way your teams actually work.</p></div><div class="mini-system" aria-hidden="true"><span class="mini-node n1">M365</span><span class="mini-node n2">Power</span><span class="mini-node n3">D365</span><span class="mini-core">XL</span><svg viewBox="0 0 430 180"><path d="M54 48 C130 48 130 90 215 90"/><path d="M54 132 C130 132 130 90 215 90"/><path d="M215 90 C300 90 300 90 382 90"/></svg></div></article>
-        <article class="bento-card bento-tall"><div class="bento-copy"><span class="card-icon">◌</span><h3>Cloud that is ready to grow</h3><p>Secure Azure foundations, clear governance and dependable day-to-day operations.</p></div><div class="cloud-stack" aria-hidden="true"><i></i><i></i><i></i><span>Azure</span><b>Secure foundation</b></div></article>
-        <article class="bento-card"><div class="bento-copy"><span class="card-icon">✦</span><h3>AI &amp; useful automation</h3><p>Reduce repetitive work and turn scattered information into practical support for your teams.</p></div><div class="automation-chip" aria-hidden="true"><span>Request received</span><i></i><b>AI triage complete</b></div></article>
-        <article class="bento-card"><div class="bento-copy"><span class="card-icon">&lt;/&gt;</span><h3>Custom software engineering</h3><p>Build the portals, integrations and applications that make the wider system complete.</p></div><div class="code-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></article>
+      <div class="capability-canvas" data-reveal>
+        <div class="capability-flow" aria-hidden="true">
+          <svg viewBox="0 0 1200 660" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="route-ms" x1="0" x2="1"><stop stop-color="#217fd1"/><stop offset="1" stop-color="#00a99d"/></linearGradient>
+              <linearGradient id="route-cloud" x1="0" x2="1"><stop stop-color="#19b9d1"/><stop offset="1" stop-color="#00a99d"/></linearGradient>
+              <linearGradient id="route-ai" x1="0" x2="1"><stop stop-color="#00a99d"/><stop offset="1" stop-color="#7557df"/></linearGradient>
+              <linearGradient id="route-code" x1="0" x2="1"><stop stop-color="#00a99d"/><stop offset="1" stop-color="#a7d92b"/></linearGradient>
+            </defs>
+            <path class="cap-route route-ms" pathLength="100" d="M600 332 C500 312 445 176 258 155"/>
+            <path class="cap-route route-cloud" pathLength="100" d="M600 332 C700 305 760 170 948 152"/>
+            <path class="cap-route route-code" pathLength="100" d="M600 332 C505 360 450 500 265 520"/>
+            <path class="cap-route route-ai" pathLength="100" d="M600 332 C710 360 770 498 955 515"/>
+            <circle class="route-point point-ms" cx="258" cy="155" r="6"/>
+            <circle class="route-point point-cloud" cx="948" cy="152" r="6"/>
+            <circle class="route-point point-code" cx="265" cy="520" r="6"/>
+            <circle class="route-point point-ai" cx="955" cy="515" r="6"/>
+          </svg>
+        </div>
+        <div class="capability-hub" aria-label="ExpertLinx connects every capability">
+          <span class="hub-pulse" aria-hidden="true"></span>
+          <img src="/legacy/assets/expertlinx-logo.svg" alt="ExpertLinx">
+          <small>One connected partner</small>
+        </div>
+        <article class="capability-node capability-ms">
+          <div class="capability-node-head"><span class="capability-symbol symbol-ms" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>01</b></div>
+          <h3>Microsoft business systems</h3>
+          <p>Shape Dynamics 365, Microsoft 365 and Power Platform around the way your teams actually work.</p>
+        </article>
+        <article class="capability-node capability-cloud">
+          <div class="capability-node-head"><span class="capability-symbol symbol-cloud" aria-hidden="true">☁</span><b>02</b></div>
+          <h3>Cloud that is ready to grow</h3>
+          <p>Secure Azure foundations, clear governance and dependable day-to-day operations.</p>
+        </article>
+        <article class="capability-node capability-code">
+          <div class="capability-node-head"><span class="capability-symbol symbol-code" aria-hidden="true">&lt;/&gt;</span><b>04</b></div>
+          <h3>Custom software engineering</h3>
+          <p>Build the portals, integrations and applications that make the wider system complete.</p>
+        </article>
+        <article class="capability-node capability-ai">
+          <div class="capability-node-head"><span class="capability-symbol symbol-ai" aria-hidden="true">✦</span><b>03</b></div>
+          <h3>AI &amp; useful automation</h3>
+          <p>Reduce repetitive work and turn scattered information into practical support for your teams.</p>
+        </article>
       </div>
     </section>
 
