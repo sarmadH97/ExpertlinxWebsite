@@ -164,3 +164,37 @@ main{position:relative;z-index:0}
 /* Final feathered veil hides the hero boundary while the dashboard remains above it. */
 .hero:before{position:absolute;inset:auto 0 -64px;z-index:7;height:200px;pointer-events:none;background:linear-gradient(180deg,rgba(238,242,247,0) 0%,rgba(238,242,247,.42) 36%,var(--bg) 72%,var(--bg) 100%);content:""}
 .hero:after{inset:auto 0 -80px;height:310px}
+
+/* Editorial capability index: premium service rows with a connected Canadian horizon. */
+.capabilities{overflow:clip;padding:124px 0 142px;background:linear-gradient(180deg,var(--bg) 0%,#edf4f6 52%,var(--bg) 100%)}
+.capability-editorial{display:grid;grid-template-columns:minmax(280px,.74fr) minmax(0,1.55fr);gap:clamp(54px,7vw,112px);align-items:start}
+.capability-intro{position:sticky;top:124px;padding-top:13px}
+.capability-intro h2{max-width:520px;margin:24px 0 25px;font:500 clamp(46px,4.55vw,68px)/1.02 "Manrope";letter-spacing:-.065em;text-wrap:balance}
+.capability-intro>p:not(.section-label){max-width:440px;margin:0;color:var(--muted);font-size:15px;line-height:1.65}
+.capability-partner{display:flex;align-items:center;gap:13px;margin-top:46px}
+.capability-partner>span{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--ink);box-shadow:0 12px 25px rgba(17,37,44,.16);color:var(--lime);font:700 11px/1 "Manrope"}
+.capability-partner small{color:#617270;font-size:10px;font-weight:600;line-height:1.35;letter-spacing:.035em;text-transform:uppercase}
+.capability-index{border-bottom:1px solid rgba(22,46,52,.15)}
+.service-row{--accent:#11a4a5;position:relative;min-height:132px;overflow:hidden;border-top:1px solid rgba(22,46,52,.15);background:rgba(255,255,255,0);transition:min-height .72s var(--ease),background-color .5s var(--ease),box-shadow .6s var(--ease)}
+.service-row::before{position:absolute;inset:-8%;z-index:0;background:url("assets/expertlinx-firefly-clouds-poster.jpg?v=20261113-hd-tall") var(--landscape-position,50% 52%)/cover no-repeat;content:"";opacity:0;filter:saturate(.8) contrast(.96);transform:scale(1.035);transition:opacity .65s var(--ease),transform 8s ease}
+.service-row::after{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(9,35,43,.99) 0%,rgba(9,42,51,.97) 46%,rgba(8,43,51,.64) 70%,rgba(6,34,42,.28) 100%);content:"";opacity:0;transition:opacity .55s var(--ease)}
+.service-row:hover:not(.is-active){background:rgba(255,255,255,.5)}
+.service-row.is-active{min-height:304px;background:#0b3039;box-shadow:0 28px 70px rgba(12,40,48,.16)}
+.service-row.is-active::before,.service-row.is-active::after{opacity:1}.service-row.is-active::before{transform:scale(1)}
+.service-ms{--accent:#15a7b0;--landscape-position:50% 58%}.service-cloud{--accent:#21bdc6;--landscape-position:50% 33%}.service-ai{--accent:#9171ed;--landscape-position:72% 49%}.service-code{--accent:#a9d832;--landscape-position:28% 62%}
+.service-trigger{position:relative;z-index:3;display:grid;width:100%;min-height:132px;grid-template-columns:76px 48px minmax(0,1fr) 32px;gap:14px;align-items:center;padding:28px 27px;border:0;background:transparent;color:var(--ink);text-align:left;cursor:pointer}
+.service-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.service-number{color:var(--accent);font:500 44px/1 "Manrope";letter-spacing:-.06em;transition:color .45s var(--ease)}
+.service-symbol{display:grid;place-items:center;color:var(--accent);font:500 28px/1 "Manrope";transition:color .45s var(--ease),transform .55s var(--ease)}
+.service-title{max-width:470px;font:500 clamp(24px,2vw,31px)/1.08 "Manrope";letter-spacing:-.045em;text-wrap:balance}
+.service-arrow{justify-self:end;color:var(--accent);font-size:24px;transition:color .45s var(--ease),transform .55s var(--ease)}
+.service-row.is-active .service-trigger{color:#fff}.service-row.is-active .service-number,.service-row.is-active .service-symbol,.service-row.is-active .service-arrow{color:#e8ffbe}.service-row.is-active .service-symbol{transform:translateY(-2px)}.service-row.is-active .service-arrow{transform:translate(2px,-2px)}
+.service-detail{position:relative;z-index:3;display:grid;grid-template-rows:0fr;margin:-13px 37% 0 152px;color:#fff;opacity:0;transition:grid-template-rows .7s var(--ease),opacity .45s var(--ease),margin-bottom .7s var(--ease)}
+.service-detail>div{min-height:0;overflow:hidden}.service-detail p{max-width:510px;margin:0;color:rgba(255,255,255,.84);font-size:14px;line-height:1.6}.service-detail small{display:block;margin-top:21px;color:#9eeae4;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.service-row.is-active .service-detail{grid-template-rows:1fr;margin-bottom:34px;opacity:1}
+.service-route{position:absolute;right:26px;bottom:23px;z-index:2;width:43%;height:82px;overflow:visible;opacity:0;transition:opacity .65s .18s var(--ease)}
+.service-route path{fill:none;stroke:#58ded4;stroke-width:2;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100}.service-route circle{fill:var(--accent);stroke:#fff;stroke-width:2}
+.service-row.is-active .service-route{opacity:.9}.service-row.is-active .service-route path{animation:serviceRoute 1.75s .18s var(--ease) forwards}@keyframes serviceRoute{to{stroke-dashoffset:0}}
+@media(max-width:1000px){.capability-editorial{grid-template-columns:1fr;gap:58px}.capability-intro{position:relative;top:auto;max-width:760px}.capability-intro h2{max-width:720px}.capability-intro>p:not(.section-label){max-width:600px}.service-title{max-width:560px}}
+@media(max-width:640px){.capabilities{padding:92px 0 104px}.capability-editorial{gap:44px}.capability-intro h2{font-size:41px}.capability-partner{margin-top:30px}.service-row{min-height:108px}.service-row.is-active{min-height:336px}.service-trigger{min-height:108px;grid-template-columns:51px 31px minmax(0,1fr) 24px;gap:8px;padding:20px 10px}.service-number{font-size:31px}.service-symbol{font-size:20px}.service-title{font-size:21px}.service-arrow{font-size:19px}.service-detail{margin:-2px 19px 0 100px}.service-row.is-active .service-detail{margin-bottom:34px}.service-detail p{font-size:13px}.service-detail small{font-size:8px;line-height:1.5}.service-route{display:none}.service-row::after{background:linear-gradient(90deg,rgba(9,35,43,.99),rgba(9,42,51,.9) 72%,rgba(6,34,42,.65))}}
+@media(prefers-reduced-motion:reduce){.service-row,.service-row::before,.service-row::after,.service-detail,.service-route{transition:none}.service-row.is-active .service-route path{animation:none;stroke-dashoffset:0}}

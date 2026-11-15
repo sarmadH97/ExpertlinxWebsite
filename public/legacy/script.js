@@ -118,6 +118,51 @@ const processObserver = new IntersectionObserver(([entry]) => {
 }, { threshold: 0.35 });
 if (processStage) processObserver.observe(processStage);
 
+const capabilityIndex = document.querySelector('[data-capability-index]');
+const serviceRows = [...document.querySelectorAll('[data-service]')];
+let activeCapability = Math.max(0, serviceRows.findIndex((row) => row.classList.contains('is-active')));
+let capabilityTimer;
+let capabilityInView = false;
+let capabilityPaused = false;
+
+function setCapability(index) {
+  if (!serviceRows.length) return;
+  activeCapability = (index + serviceRows.length) % serviceRows.length;
+  serviceRows.forEach((row, rowIndex) => {
+    const active = rowIndex === activeCapability;
+    row.classList.toggle('is-active', active);
+    row.querySelector('.service-trigger')?.setAttribute('aria-expanded', String(active));
+  });
+}
+
+function stopCapabilityCycle() {
+  clearInterval(capabilityTimer);
+  capabilityTimer = undefined;
+}
+
+function startCapabilityCycle() {
+  if (reduceMotion || !capabilityInView || capabilityPaused || capabilityTimer || serviceRows.length < 2) return;
+  capabilityTimer = setInterval(() => setCapability(activeCapability + 1), 7200);
+}
+
+serviceRows.forEach((row, index) => {
+  const trigger = row.querySelector('.service-trigger');
+  trigger?.addEventListener('click', () => { setCapability(index); stopCapabilityCycle(); startCapabilityCycle(); });
+  row.addEventListener('pointerenter', () => { capabilityPaused = true; stopCapabilityCycle(); setCapability(index); });
+  row.addEventListener('pointerleave', () => { capabilityPaused = false; startCapabilityCycle(); });
+  trigger?.addEventListener('focus', () => { capabilityPaused = true; stopCapabilityCycle(); setCapability(index); });
+  trigger?.addEventListener('blur', () => { capabilityPaused = false; startCapabilityCycle(); });
+});
+
+if (capabilityIndex) {
+  const capabilityObserver = new IntersectionObserver(([entry]) => {
+    capabilityInView = Boolean(entry?.isIntersecting);
+    if (capabilityInView) startCapabilityCycle();
+    else stopCapabilityCycle();
+  }, { threshold: 0.28 });
+  capabilityObserver.observe(capabilityIndex);
+}
+
 document.querySelectorAll('.accordion article').forEach((item) => {
   const button = item.querySelector('button');
   button.addEventListener('click', () => {
