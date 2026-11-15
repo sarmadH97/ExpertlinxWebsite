@@ -163,33 +163,6 @@ if (capabilityIndex) {
   capabilityObserver.observe(capabilityIndex);
 }
 
-const conceptButtons = [...document.querySelectorAll('[data-concept-target]')];
-const deliveryConcepts = [...document.querySelectorAll('[data-concept]')];
-
-function setDeliveryConcept(name) {
-  conceptButtons.forEach((button) => {
-    const active = button.dataset.conceptTarget === name;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-selected', String(active));
-  });
-  deliveryConcepts.forEach((concept) => {
-    const active = concept.dataset.concept === name;
-    concept.hidden = !active;
-    concept.classList.toggle('is-active', active);
-  });
-}
-
-conceptButtons.forEach((button, index) => {
-  button.addEventListener('click', () => setDeliveryConcept(button.dataset.conceptTarget));
-  button.addEventListener('keydown', (event) => {
-    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-    event.preventDefault();
-    const nextIndex = event.key === 'ArrowRight' ? (index + 1) % conceptButtons.length : (index - 1 + conceptButtons.length) % conceptButtons.length;
-    conceptButtons[nextIndex].focus();
-    setDeliveryConcept(conceptButtons[nextIndex].dataset.conceptTarget);
-  });
-});
-
 document.querySelectorAll('[data-lens-stage]').forEach((stage) => {
   const lens = stage.querySelector('[data-lens]');
   if (!lens) return;
