@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 const SITE_URL = "https://expertlinx.com";
-const TITLE = "ExpertLinx — Technology that works together";
+const TITLE = "ExpertLinx · Azure, Microsoft 365 & Dynamics 365 Partner";
 const DESCRIPTION =
-  "ExpertLinx connects Microsoft platforms, cloud, AI, data and custom software into clear, dependable business systems.";
+  "One senior team for Azure infrastructure, Microsoft 365 tenant setup and Dynamics 365 / Business Central. Book a free architecture review.";
+const SHARE_IMAGE = "/legacy/assets/expertlinx-home-share.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -42,8 +43,10 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: "/legacy/assets/expertlinx-landscape.png",
-        alt: "A calm landscape representing connected ExpertLinx technology systems",
+        url: SHARE_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "ExpertLinx. From Azure to custom apps—one partner, zero hand-offs",
       },
     ],
   },
@@ -51,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/legacy/assets/expertlinx-landscape.png"],
+    images: [SHARE_IMAGE],
   },
   robots: {
     index: true,
@@ -78,7 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <head>
         <link rel="preload" href="/legacy/assets/expertlinx-landscape.png" as="image" />
-        <link rel="stylesheet" href="/legacy/styles.css?v=20261115-letter-reveal-v3" />
+        <link rel="stylesheet" href="/legacy/styles.css?v=20261125-home-brief" />
       </head>
       <body>{children}</body>
     </html>

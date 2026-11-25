@@ -67,10 +67,34 @@ addEventListener('scroll', () => {
 updateScrollEffects();
 
 const processSteps = [
-  { title: 'Discover the whole picture.', summary: 'We learn how your people, processes, platforms and data fit together before deciding what should change.', focus: 'Map systems & friction', points: [['Business context', 'Goals, constraints and priorities made visible.'], ['System landscape', 'Platforms, handoffs and gaps mapped clearly.'], ['Practical next move', 'A grounded starting point—not a generic solution.']], colors: ['#95d3de', '#d5e3e0', '#f2d29d'] },
-  { title: 'Design one clear direction.', summary: 'We turn what we have learned into a joined-up architecture, delivery plan and experience people can understand.', focus: 'Shape the right solution', points: [['Coherent architecture', 'Each platform and component has a clear role.'], ['Useful priorities', 'The highest-value changes come first.'], ['Visible trade-offs', 'Decisions stay grounded and understandable.']], colors: ['#b8d2ef', '#d9d9f1', '#e8cbed'] },
-  { title: 'Deliver in useful increments.', summary: 'We build, connect and test in stages so progress is visible and teams can adopt change with confidence.', focus: 'Build, test & connect', points: [['Iterative delivery', 'Working improvements arrive in sensible stages.'], ['Quality built in', 'Security, performance and usability are tested.'], ['People included', 'Teams see, shape and understand what is changing.']], colors: ['#c9dfbb', '#dce9d1', '#f0d6a6'] },
-  { title: 'Evolve what works.', summary: 'We support the system after launch, learn from real use and keep improving it as the business changes.', focus: 'Support & improve', points: [['Operational support', 'Keep critical systems dependable day to day.'], ['Continuous improvement', 'Use real feedback to refine the experience.'], ['Ready for change', 'Extend the system without repeatedly starting over.']], colors: ['#a6ddd3', '#d5ece6', '#d7e9a8'] }
+  {
+    title: "See the whole picture first.",
+    summary: "We review your Azure, Microsoft 365 and business systems before recommending a single change.",
+    focus: "Assess",
+    points: [["Current estate","what you have and what it costs"],["Risks","security, licensing and compliance gaps"],["Quick wins","fixes you can make this month"]],
+    colors: ["#95d3de","#d5e3e0","#f2d29d"]
+  },
+  {
+    title: "Agree the blueprint.",
+    summary: "You get a clear target architecture, a phased plan and a fixed scope before any build starts.",
+    focus: "Design",
+    points: [["Architecture","how every piece connects"],["Roadmap","phases tied to business priorities"],["Fixed quote","no open-ended billing"]],
+    colors: ["#b8d2ef","#d9d9f1","#e8cbed"]
+  },
+  {
+    title: "Build it, move it, go live.",
+    summary: "We build, migrate and test in stages, so your team keeps working while things change.",
+    focus: "Deploy",
+    points: [["Staged rollout","no big-bang cutover"],["Data migration","checked and reconciled"],["Training","your team ready on day one"]],
+    colors: ["#c9dfbb","#dce9d1","#f0d6a6"]
+  },
+  {
+    title: "Keep it healthy as you grow.",
+    summary: "After go-live we monitor, support and tune your systems, with regular reviews of cost and security.",
+    focus: "Run & improve",
+    points: [["Managed support","one number to call"],["Monthly reviews","cost, security, usage"],["Roadmap","the next improvement, planned"]],
+    colors: ["#a6ddd3","#d5ece6","#d7e9a8"]
+  }
 ];
 
 const processButtons = [...document.querySelectorAll('.process-rail button')];
@@ -162,6 +186,80 @@ if (capabilityIndex) {
   }, { threshold: 0.28 });
   capabilityObserver.observe(capabilityIndex);
 }
+
+
+const guide = document.querySelector('.project-guide');
+if (guide && typeof guide.showModal === 'function') {
+  const choices = guide.querySelector('.guide-choices');
+  const result = guide.querySelector('.guide-result');
+  const recommendation = guide.querySelector('[data-guide-recommendation]');
+  const nextLink = guide.querySelector('[data-guide-link]');
+  const recommendations = {
+    azure: "Start with Azure Cloud Infrastructure & Management.",
+    "microsoft-365": "Start with Microsoft 365 Tenant Setup & Deployment.",
+    "business-applications": "Start with Business Applications.",
+    architecture: "Start with Solution Architecture & Integration.",
+    unsure: "Start with a free architecture review. An architect can help you identify where to focus."
+  };
+
+  function resetGuide() {
+    choices.hidden = false;
+    result.hidden = true;
+  }
+
+  document.querySelectorAll('[data-open-guide]').forEach((button) => {
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      resetGuide();
+      guide.showModal();
+    });
+  });
+
+  choices.querySelectorAll('[data-guide-service]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const service = button.dataset.guideService;
+      recommendation.textContent = recommendations[service];
+      nextLink.href = service === 'unsure' ? '#contact' : '#service-' + service;
+      nextLink.textContent = service === 'unsure' ? 'Go to contact' : 'View recommended service';
+      choices.hidden = true;
+      result.hidden = false;
+      recommendation.focus();
+    });
+  });
+
+  guide.querySelector('[data-guide-back]').addEventListener('click', () => {
+    resetGuide();
+    choices.querySelector('button').focus();
+  });
+  nextLink.addEventListener('click', () => guide.close());
+}
+
+const serviceMenu = document.querySelector('.service-menu');
+document.addEventListener('click', (event) => {
+  if (serviceMenu && (!serviceMenu.contains(event.target) || event.target.closest('a'))) {
+    serviceMenu.open = false;
+  }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && serviceMenu?.open) {
+    serviceMenu.open = false;
+    serviceMenu.querySelector('summary').focus();
+  }
+});
+
+function selectLinkedService(hash) {
+  const index = serviceRows.findIndex((row) => '#' + row.id === hash);
+  if (index < 0) return;
+  stopCapabilityCycle();
+  capabilityPaused = true;
+  setCapability(index);
+}
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href^="#service-"]');
+  if (link) selectLinkedService(link.getAttribute('href'));
+});
+window.addEventListener('hashchange', () => selectLinkedService(window.location.hash));
+selectLinkedService(window.location.hash);
 
 document.querySelectorAll('[data-photo-stage]').forEach((stage) => {
   const revealArea = stage.querySelector('[data-reveal-area]');

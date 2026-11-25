@@ -23,8 +23,9 @@ const structuredData = {
       name: "ExpertLinx",
       url: "https://expertlinx.com",
       email: "sales@expertlinx.com",
+      telephone: "+12892050570",
       description:
-        "Technology consulting and engineering across Microsoft platforms, cloud, AI, data and custom software.",
+        "One senior team for Azure infrastructure, Microsoft 365 tenant setup and Dynamics 365 / Business Central.",
     },
     {
       "@type": "WebSite",
@@ -40,10 +41,10 @@ const structuredData = {
       name: "Technology consulting and engineering",
       provider: { "@id": "https://expertlinx.com/#organization" },
       serviceType: [
-        "Microsoft business applications",
-        "Cloud and Azure consulting",
-        "AI, data and automation",
-        "Custom software engineering",
+        "Azure Cloud Infrastructure & Management",
+        "Microsoft 365 Tenant Setup & Deployment",
+        "Business Applications",
+        "Solution Architecture & Integration",
       ],
       areaServed: "Worldwide",
       url: "https://expertlinx.com/#capabilities",
@@ -60,7 +61,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
-      <script src="/legacy/script.js?v=20261115-letter-reveal-v3" defer />
+      <script src="/legacy/script.js?v=20261125-home-brief" defer />
     </>
   );
 }
