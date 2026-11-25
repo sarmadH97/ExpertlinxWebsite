@@ -6,31 +6,52 @@ const parallaxPanel = document.querySelector('[data-parallax]');
 const processPhoto = document.querySelector('.process-photo');
 const outcomePhoto = document.querySelector('.outcome-photo img');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const ecosystemMotion = document.querySelector('.ecosystem-motion svg');
+const ecosystemMotion = document.querySelector('.ecosystem-motion');
 
-if (ecosystemMotion) {
-  if (reduceMotion) ecosystemMotion.pauseAnimations?.();
-  else {
-    const ecosystemMotionObserver = new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting) ecosystemMotion.unpauseAnimations?.();
-      else ecosystemMotion.pauseAnimations?.();
-    }, { threshold: 0.08 });
-    ecosystemMotionObserver.observe(ecosystemMotion);
-  }
+if (ecosystemMotion && !reduceMotion) {
+  const ecosystemMotionObserver = new IntersectionObserver(([entry]) => {
+    ecosystemMotion.classList.toggle('is-moving', Boolean(entry?.isIntersecting));
+  }, { threshold: 0.08 });
+  ecosystemMotionObserver.observe(ecosystemMotion);
 }
 
-menuButton?.addEventListener('click', () => {
-  const open = nav.classList.toggle('is-open');
+function setMobileMenu(open) {
+  nav.classList.toggle('is-open', open);
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-});
+}
 
-document.querySelectorAll('.nav-links a').forEach((link) => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('is-open');
-    menuButton?.setAttribute('aria-expanded', 'false');
+if (nav && menuButton) {
+  const navGroups = [...nav.querySelectorAll('.nav-group')];
+
+  menuButton.addEventListener('click', () => {
+    const open = !nav.classList.contains('is-open');
+    if (!open) navGroups.forEach((group) => { group.open = false; });
+    setMobileMenu(open);
   });
-});
+
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('dialog[open]')) return;
+    const outsideNav = !nav.contains(event.target);
+    const followedLink = Boolean(event.target.closest('.nav-links a'));
+    if (outsideNav || followedLink) {
+      navGroups.forEach((group) => { group.open = false; });
+      setMobileMenu(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+    const activeGroup = navGroups.find((group) => group.open);
+    if (activeGroup) {
+      activeGroup.open = false;
+      activeGroup.querySelector('summary').focus();
+    } else if (nav.classList.contains('is-open')) {
+      setMobileMenu(false);
+      menuButton.focus();
+    }
+  });
+}
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -233,19 +254,6 @@ if (guide && typeof guide.showModal === 'function') {
   });
   nextLink.addEventListener('click', () => guide.close());
 }
-
-const serviceMenu = document.querySelector('.service-menu');
-document.addEventListener('click', (event) => {
-  if (serviceMenu && (!serviceMenu.contains(event.target) || event.target.closest('a'))) {
-    serviceMenu.open = false;
-  }
-});
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && serviceMenu?.open) {
-    serviceMenu.open = false;
-    serviceMenu.querySelector('summary').focus();
-  }
-});
 
 function selectLinkedService(hash) {
   const index = serviceRows.findIndex((row) => '#' + row.id === hash);

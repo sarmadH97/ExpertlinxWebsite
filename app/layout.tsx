@@ -81,7 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <head>
         <link rel="preload" href="/legacy/assets/expertlinx-landscape.png" as="image" />
-        <link rel="stylesheet" href="/legacy/styles.css?v=20261125-home-brief" />
+        <link rel="stylesheet" href="/legacy/styles.css?v=20261125-home-nav-orbit" />
       </head>
       <body>{children}</body>
     </html>

@@ -61,7 +61,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
-      <script src="/legacy/script.js?v=20261125-home-brief" defer />
+      <script src="/legacy/script.js?v=20261125-home-nav-orbit" defer />
     </>
   );
 }

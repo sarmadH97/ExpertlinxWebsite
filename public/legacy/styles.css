@@ -262,15 +262,20 @@ main{position:relative;z-index:0}
 /* Homepage content brief */
 [hidden] { display: none !important; }
 [id^="service-"], #our-work, #expenselinx, #cloud-assessment, #managed-support { scroll-margin-top: 105px; }
-.nav-links { align-items: center; }
-.service-menu { position: relative; color: #55615f; font-size: 13px; }
-.service-menu summary { cursor: pointer; list-style: none; }
-.service-menu summary::-webkit-details-marker { display: none; }
-.service-menu summary::after { content: "⌄"; margin-left: .45em; }
-.service-menu > div { position: absolute; top: calc(100% + 14px); left: -14px; width: max-content; max-width: calc(100vw - 48px); display: grid; gap: 5px; padding: 10px; background: white; border-radius: 14px; box-shadow: var(--shadow); }
-.service-menu a { display: block; padding: 9px; }
-.service-menu a::after { display: none; }
-.service-menu a:hover { background: var(--aqua); border-radius: 8px; }
+.nav-links { align-items: center; gap: clamp(10px, 2.4vw, 32px); }
+.nav-group { position: relative; color: #384b55; font-size: .875rem; }
+.nav-group summary { display: flex; align-items: center; gap: 7px; cursor: pointer; list-style: none; padding: 7px 0 7px 6px; border-radius: 9px; white-space: nowrap; }
+.nav-group summary::-webkit-details-marker { display: none; }
+.nav-chevron { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; color: #126970; background: #e5f4f5; transition: color .2s ease, background .2s ease; }
+.nav-chevron::before { content: ""; width: 6px; height: 6px; margin-top: -3px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform .24s var(--ease); }
+.nav-group[open] .nav-chevron { color: #fff; background: #126970; }
+.nav-group[open] .nav-chevron::before { transform: translateY(3px) rotate(225deg); }
+.nav-dropdown { position: absolute; top: calc(100% + 9px); left: -8px; width: max-content; max-width: min(300px, calc(100vw - 48px)); display: grid; gap: 3px; padding: 8px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 18px 46px rgba(27,40,56,.15); }
+.nav-group[open] .nav-dropdown { animation: nav-dropdown-in .24s var(--ease) both; }
+.nav-dropdown a, .nav-dropdown button { display: block; padding: 9px 11px; border: 0; border-radius: 8px; background: none; color: #384b55; font: inherit; text-align: left; cursor: pointer; }
+.nav-dropdown a::after { display: none; }
+.nav-dropdown a:hover, .nav-dropdown button:hover { background: var(--aqua); }
+@keyframes nav-dropdown-in { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: translateY(0); } }
 
 .hero .eyebrow { padding: 8px 14px; text-align: center; }
 .hero .hero-lede { max-width: 1120px; color: var(--ink); text-wrap: wrap; }
@@ -287,11 +292,8 @@ main{position:relative;z-index:0}
 .estate-flow strong { color: white; background: #126b70; }
 .estate-summary { padding-top: 12px; color: var(--muted); font-size: 11px; text-align: center; }
 
-.about.about-brief { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-rows: auto auto; gap: 45px clamp(36px, 7vw, 105px); min-height: 0; }
-.about-brief .about-intro, .about-brief .about-aside, .about-brief .about-stats { grid-column: auto; grid-row: auto; }
-.about-brief .about-aside > p { max-width: none; margin-bottom: 26px; font-size: 16px; }
-.about-brief .about-stats { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); padding-top: 26px; }
-.about-brief .about-stats span { max-width: none; }
+.about-with-photos .about-aside > p { max-width: none; margin-bottom: 26px; font-size: 16px; }
+.about-with-photos .about-stats { align-self: start; }
 .service-detail .service-inclusions { margin-top: 14px; }
 .proof .section-heading { margin-bottom: 46px; }
 .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -317,6 +319,16 @@ main{position:relative;z-index:0}
 .offer-banners .pill { padding-inline: 20px; }
 .platform-strip { position: relative; z-index: 2; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 26px auto 0; padding: 0; max-width: 910px; list-style: none; }
 .platform-strip li { padding: 6px 12px; border: 1px solid var(--line); border-radius: 100px; background: #fff; font-size: .8rem; }
+
+.ecosystem-inner { --orbit-inset: 36px; --orbit-node: 52px; --orbit-rounding: 100px; min-height: 0; padding: 104px 100px; }
+.ecosystem-copy h2 { max-width: 960px; margin-inline: auto; text-wrap: balance; }
+.ecosystem-inner .ecosystem-motion { position: absolute; inset: var(--orbit-inset); width: auto; aspect-ratio: auto; transform: none; border: 1px solid rgba(0,163,163,.24); border-radius: var(--orbit-rounding); }
+.ecosystem-motion .motion-node { position: absolute; inset: 0 auto auto 0; display: grid; place-items: center; width: var(--orbit-node); height: var(--orbit-node); border: 1px solid var(--line); border-radius: 50%; background: var(--node-bg); color: var(--node-fg); font: 700 .68rem/1 "DM Sans",sans-serif; filter: none; box-shadow: 0 7px 16px rgba(27,40,56,.12); offset-path: inset(0 round var(--orbit-rounding)); offset-rotate: 0deg; offset-distance: calc(var(--node-index) * 10%); animation: ecosystem-orbit-loop 34s linear infinite paused; animation-delay: calc(var(--node-index) * -3.4s); }
+.ecosystem-motion.is-moving .motion-node { animation-play-state: running; }
+@keyframes ecosystem-orbit-loop { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@supports not (offset-path: inset(0 round 10px)) {
+  .ecosystem-inner .ecosystem-motion { display: none; }
+}
 .contact-email, .footer-phone { display: block; margin: 10px auto 0; }
 .contact-email { width: fit-content; position: relative; }
 .footer { grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)); gap: clamp(24px, 4vw, 60px); }
@@ -333,9 +345,12 @@ main{position:relative;z-index:0}
 .guide-actions .pill { padding-inline: 18px; }
 
 @media (max-width: 900px) {
-  .nav.is-open .nav-links { align-items: stretch; max-height: 75vh; overflow: auto; }
-  .service-menu { padding: 13px; }
-  .service-menu > div { position: static; width: auto; max-width: none; box-shadow: none; padding-bottom: 0; }
+  .nav.is-open .nav-links { align-items: stretch; max-height: 75vh; overflow: auto; animation: nav-dropdown-in .24s var(--ease) both; }
+  .nav-group:not(:last-child) { border-bottom: 1px solid var(--line); }
+  .nav-group summary { justify-content: space-between; min-height: 48px; padding: 8px 10px; }
+  .nav-dropdown { position: static; width: auto; max-width: none; border: 0; box-shadow: none; padding: 0 0 6px; }
+  .nav.is-open .nav-dropdown a, .nav-dropdown button { padding: 10px 11px; }
+  .ecosystem-inner { --orbit-inset: 28px; --orbit-node: 40px; --orbit-rounding: 75px; padding: 80px 73px; }
   .estate-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .hero-product { height: auto; }
   .footer { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -349,11 +364,20 @@ main{position:relative;z-index:0}
   .hero-actions > * { justify-content: center; }
   .product-stats.estate-stats article:nth-child(2) { display: block; }
   .estate-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .about.about-brief, .proof-grid, .expense-feature { grid-template-columns: minmax(0, 1fr); gap: 23px; }
-  .about-brief .about-stats { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .proof-grid, .expense-feature { grid-template-columns: minmax(0, 1fr); gap: 23px; }
+  .about-with-photos .about-intro { grid-row: 1; }
+  .about-with-photos .about-photo-tall { height: clamp(300px, 95vw, 440px); }
+  .ecosystem-inner { --orbit-inset: 21px; --orbit-node: 30px; --orbit-rounding: 54px; padding: 61px 46px; }
+  .ecosystem h2 { font-size: clamp(27px, 7.8vw, 42px); }
+  .ecosystem-motion .motion-node { font-size: .55rem; }
+  .ecosystem-copy .pill { white-space: normal; text-align: left; }
+  .platform-strip { gap: 5px; }
+  .platform-strip li { font-size: .72rem; padding: 5px 8px; }
   .footer { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-brand { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brief-marquee > div { animation: none; }
+  .nav-group[open] .nav-dropdown, .nav.is-open .nav-links, .ecosystem-motion .motion-node { animation: none; }
+  .nav-chevron, .nav-chevron::before { transition: none; }
 }
