@@ -279,7 +279,17 @@ main{position:relative;z-index:0}
 
 .hero .eyebrow { padding: 8px 14px; text-align: center; }
 .hero .hero-lede { max-width: 1120px; color: var(--ink); text-wrap: wrap; }
-.hero-copy::before { content: ""; position: absolute; z-index: -1; inset: 20% -10% -4%; pointer-events: none; background: radial-gradient(ellipse at 50% 62%,rgba(240,248,251,.83),rgba(240,248,251,.43) 52%,transparent 75%); }
+.hero-copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 20% -10% -72px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 54%, rgba(240,248,251,.83), rgba(240,248,251,.43) 52%, transparent 75%);
+  /* Fade the text wash to zero before the layer ends over the video. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 72%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 72%, transparent);
+}
 .hero-video { filter: saturate(1.04) contrast(1.035) brightness(1.02); }
 .hero-actions { flex-wrap: wrap; }
 .hero-actions button { cursor: pointer; font-family: inherit; }
